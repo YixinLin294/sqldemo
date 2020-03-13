@@ -1,0 +1,287 @@
+-- 建表语句
+DROP TABLE IF EXISTS `verbal_trick_template_tab`;
+CREATE TABLE `verbal_trick_template_tab`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created_at` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0),
+  `tab` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '所属标签',
+  `code` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '标签code',
+  `sequence` int(11) NULL DEFAULT NULL COMMENT 'tab的顺序',
+  `deleted` tinyint(4) NULL DEFAULT 0 COMMENT '1:删除 0：不删除',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `tab_code`(`tab`,`code`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+
+DROP TABLE IF EXISTS `verbal_trick_template_title`;
+CREATE TABLE `verbal_trick_template_title`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '标题',
+  `tab_id` int(11) NULL DEFAULT NULL COMMENT '标签id',
+  `created_at` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0),
+  `deleted` tinyint(4) NULL DEFAULT 0 COMMENT '1:删除 0：不删除',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `index_title`(`title`) USING BTREE,
+  INDEX `index_tab_id`(`tab_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+
+DROP TABLE IF EXISTS `verbal_trick_template_content`;
+CREATE TABLE `verbal_trick_template_content`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title_id` int(11) NULL DEFAULT NULL COMMENT '标题_id',
+  `created_at` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP(0),
+  `subtitle` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '小标题',
+  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '内容',
+  `deleted` tinyint(4) NULL DEFAULT 0 COMMENT '1:删除 0：不删除',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `index_title_id`(`title_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+
+
+-- 插入语句   `verbal_trick_template_tab`
+INSERT INTO `verbal_trick_template_tab` (id, tab, code, sequence) values (1,'关于保险公司','INS_COMPANY', 1);
+INSERT INTO `verbal_trick_template_tab` (id, tab, code, sequence) values (2,'关于保险产品','INS_PRODUCT', 2);
+INSERT INTO `verbal_trick_template_tab` (id, tab, code, sequence) values (3,'关于购买细节','PURCHASE_DETAIL', 3);
+INSERT INTO `verbal_trick_template_tab` (id, tab, code, sequence) values (4,'关于购买平台和身份','PLATFORM_IDENTITY', 4);
+INSERT INTO `verbal_trick_template_tab` (id, tab, code, sequence) values (5,'关于售后','AFTER_SALE', 5);
+
+
+-- 插入语句 `verbal_trick_template_title`
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('小公司到底靠不靠谱？安不安全？小公司理赔会不会很麻烦？（重点是质疑小公司）', 1);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('怎么没听过这家公司？', 1);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('没有分支机构怎么办？？？', 1);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('重疾 保终身还是定期好？', 2);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('重疾 赔一次还是赔多次好？', 2);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('重疾 消费的还是返还的好？', 2);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('为什么有2款重疾险？（定期+终身搭配的）', 2);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('百万医疗为什么会有1万免赔额？', 2);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('买了意外险为什么还要买寿险？', 2);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('有了医疗险还需要买重疾险吗？', 2);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('要和别的产品再比较一下？', 2);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('完整的产品对比公式', 2);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('可不可以买备选产品？备选产品和你推荐的产品有什么区别？', 2);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('可以通过你们投保你们平台没有代理的产品吗？', 2);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('没理赔钱就白交了吗？', 2);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('发一个产品链接给我吧，还是我通过深蓝保小程序投保也算你业绩？', 2);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('“忠诚客户”权益（或绿通、住院垫付）等一些增值服务，没有写进条款内，这个怎么保证？', 2);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('你推荐的这款产品性价比是很高的，但是我有朋友上个月买了某款线下的产品，你觉得这个产品适合我么？', 2);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('我想要购买华贵大麦定寿的体检版，怎么购买？', 2);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('可以帮我对比解读产品条款吗？', 2);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('我自己配了方案，可以帮我对比吗？', 2);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('假如我现在买了内地重疾险，几个月后身份换了，比如领取了香港身份证，理赔会不会有什么影响？', 2);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('现在的几十万，二三十年后通胀了是不是就不值钱了？', 2);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('有更好的保险产品吗？', 2);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('香港保险怎么样？', 2);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values (' 这个寿险只保到70岁（30年），交的钱也不退，有点亏', 2);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('重疾险带身故责任好不好', 2);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('所在地区不能投保  ', 3);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('找你们买保险有没有优惠啊  73.5%', 3);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('网上买保险安不安全（质疑网络）  ', 3);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('找你们买安不安全（质疑我们）', 3);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('一定要告知吗？不告知，过了2年一定要赔吧？', 3);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('需不需要体检？', 3);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('人工核保和智能核保的区别？是不是只要核保通过就没有问题', 3);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('邮件核保会不会无效？', 3);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('担心核保记录产生影响？', 3);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('不同保险产品对于疾病核保是不是不一样的处理？', 3);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('找你们买和找慧泽/保险公司买有什么区别？', 4);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('你们有没有提成？', 4);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('合同是和你们签吗？', 4);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('你们是保险公司还是深蓝保？', 4);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('如果客户深究是哪家保险经纪公司', 4);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('如果客户深究深蓝保怎么赚钱的', 4);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('深蓝保可以卖保险吗？', 4);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('去年深蓝保被查，说是涉嫌非法经营商业保险，这个是真的吗？', 4);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('深蓝保成立多久了，有正规的资质，经营范围吗？', 4);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('我转发给你的律保的文章是真实的吗？深蓝保是有推广费吗？我是否也可以注册？', 4);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('你有从业资格吗？可以发一下你的简历吗？', 4);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('如果客户追问个人从业经历', 4);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('如果客户说我看你这个证刚登记没多久啊，你怎么说你有几年经验了？', 4);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('我投保你已经有业绩了，为什么还要收咨询费？', 4);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('如果服务不满意是不是可以换规划师或是退费？', 4);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('你们（齐欣云服）成立多久了，有正规的资质，经营范围吗？', 4);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('齐欣云服没听说过，保险公司说合作平台有慧择网', 4);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('理赔会不会很麻烦？（重点是担心理赔）', 5);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('理赔找谁？', 5);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('你离职了我找谁？', 5);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('电子保单和纸质保单的问题', 5);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('如果后续还有问题，过了一年，是否还可以进一步咨询？', 5);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('保单管理皮夹+U盘', 5);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('售后服务问题', 5);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values (' 客户认同或者表扬', 5);
+INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('反复要再考虑一下', 5);
+
+-- 插入语句 `verbal_trick_template_content`
+INSERT INTO `verbal_trick_template_content` (subtitle, content, title_id) values ('成立','您问的这个问题其实大家都很关心，每个人在买保险前都会问的，说真的保险公司不存在大小保险公司，全中国到现在一共也才200来家保险公司，因为保险公司的成立标准是非常苛刻的，至少2个亿的注册资本，而且还会调查股东背景是不是有实力，很难才能审批通过，比如说工银安盛，它是中国工商银行和法国安盛集团合资组建的，注册资本金就有125亿人民币。所以保险公司它只要成立了就已经是一家很大的公司了，只是成立时间晚了一点，没去打广告，但同样也正是因为它新，才会出性价比比较高的保险产品来抢市场，所以您只要是明明白白买的保险，健康告知没有隐瞒，那就绝对没有问题的。（您放心投保，现在互联网时代，这些互联网保险公司它只是比较新而已，但产品绝对有优势的，您跟绝大多数人一样都是想选择性价比高的产品，对吧）', 1);
+INSERT INTO `verbal_trick_template_content` (subtitle, content, title_id) values ('保险法','理解您的担心，如果您是担心倒闭问题，这个您完全可以放心，保险法第92条有规定：（经营有人寿保险业务的保险公司被依法撤销或者被依法宣告破产的，其持有的人寿保险合同及责任准备金，必须转让给其他经营有人寿保险业务的保险公司；不能同其他保险公司达成转让协议的，由国务院保险监督管理机构指定经营有人寿保险业务的保险公司接受转让。 转让或者由国务院保险监督管理机构指定接受转让前款规定的人寿保险合同及责任准备金的，应当维护被保险人、受益人的合法权益。） 说直白一点就是保险公司的解散会由国家出面协调另一家保险公司来接手，您只要有保险合同在手上，就一定是保障您的权益的（同步微信发送一份保险法的图片）', 1);
+INSERT INTO `verbal_trick_template_content` (subtitle, content, title_id) values ('举例子','举个例子，比如07年国际金融危机的时候，倒闭了很多金融机构甚至是国外的银行，但是您听过保险公司倒闭吗？并没有，当时其实友邦保险的美国公司其实也是遇到了很大的困难，但是美国政府出面救了它，现在友邦依然是好好的，您要知道如果有一家保险公司彻底倒闭不履行合同，那么所有人都不相信商业保险了，那么最大的麻烦是政府，因为商业保险其实是在帮助政府稳定社会。所以关键时刻政府在银行和保险公司之间会选择救保险公司。所以您看国外的保险业200多年的历史，那些大富豪都知道保险公司是比银行更安全的地方，最差的结果无非就是让别的保险公司接手原来的保单，买的是什么产品，新接手的公司照样履行合同理赔的，是由国家来兜底的，这个您完全可以放心。（同步微信发送一份保险法的图片）', 1);
+INSERT INTO `verbal_trick_template_content` (subtitle, content, title_id) values ('理赔','*女士/先生，理解您对理赔问题的担心，那您完全可以放心，是否理赔是看合同条款的，跟保险公司大小毫无关系，如果条款不赔的，再大的保险公司都不会赔，如果是条款要赔的，那么再小的公司都要赔，目前通过各家的理赔报表来看，各家保险公司的获赔率都在97%以上，大小保险公司之间没有太大的区别，更何况保险法对于理赔时效都是有统一规定的，规定时间内必须给出理赔结果，银保监会也会每个季度去查看各家保险公司的数据，对所有保险公司都是同样的标准，有异常的就要去找它了，所以您放心，保险理赔是看条款的，只要是合同保险责任范围内的，那就都是要赔的。', 1);
+INSERT INTO `verbal_trick_template_content` (subtitle, content, title_id) values ('国家','保险公司的安全性跟它本身大小是没有关系的，它只跟保险法和合同条款有关系，如果法律不保护国家不扶持，再大的企业也有不安全的时候，比如制造业实业，诺基亚摩托罗拉，这都是大企业啊您现在已经找不到了吧，但如果法律有保护国家有兜底，那就没有安全问题，就像保险行业，现在国家是支持商业保险发展的，这样才能来弥补它社保资金的不足，由利于稳定社会，所以国家是不会允许保险公司出事的，再说每家保险公司每个季度的报表都被银保监会盯着呢，有一点小问题都会被问责和罚款，比您更担心它们出事，所以您就安安心心的买性价比最高的产品就可以了
+', 1);
+INSERT INTO `verbal_trick_template_content` (subtitle, content, title_id) values ('没有广告','有的保险公司您可能没怎么听说过，但是至少2个亿的注册资本，股东都要很强大才能开保险公司的，毕竟国内一共也才200家左右的保险公司，对于这点你无需担心。因为您并不是这个行业内的人，保险公司没有大量的打广告和发展代理人，您就不知道。但是您知道是羊毛肯定出在羊身上，大量的打广告发展线下代理人，这些都是要钱的，一天的广告费都要几千万呢。那新型的保险公司的优点就是更贴近互联网，根本不需要打广告和找代理人，所以产品性价比更高，我这边咨询的大部分消费者都是更看重性价比，您是也一样吧？
+', 2);
+INSERT INTO `verbal_trick_template_content` (subtitle, content, title_id) values ('性价比','理解，您没怎么听过是很正常的，毕竟您不是保险行业的人，这几年是互联网保险公司的大发展，大部分互联网保险公司都比较新，依托网络和产品的性价比去抢占市场，不用拿钱去砸广告，自然就感觉没有老的那几家有名气，但这不影响它的产品和理赔的，都是同样受保险法和银保监会的约束的，像百年人寿它2018年的保费排名是第13名，众安的股东是马云、马化腾还有中国平安的马明哲，像光大永明背后的股东是中央财政部，工银安盛，注册资本金就有125亿人民币。这些您没听说过的保险公司背景都很雄厚。反倒您如果去参考那些大牌保险公司的同类产品就会发现保费平均会贵10-30%，毕竟羊毛出在羊身上，所以我们给您推荐的都是性价比最高的产品，您把产品了解清楚就可以了。', 2);
+INSERT INTO `verbal_trick_template_content` (subtitle, content, title_id) values ('文章推荐','深蓝保文章上提示不是很明显，有一句话您可能没注意到“深蓝君严选了具有网销资质的保险经纪公司”，所以，我们只推荐性价比高的互联网保险，线下的产品太贵了，性价比不高，所以您会有这种这些公司都不熟的错觉，其实在互联网保险公司中这都算是有名气的了。', 2);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('（如果客户依旧纠结具体的某家保险公司，可以查一下这家公司的背景，注册资本金，以及偿付能力等数据）', 2);
+INSERT INTO `verbal_trick_template_content` (subtitle, content, title_id) values ('举例子','这个问题我理解，您是怕到时候有事情找不到保险公司对吧，其实您现在是在网上买的保险，以后也是通过电话和网络来对接保险公司的，拨打保险公司客服电话，或是关注他们家的公众号在微信上操作就行了。跑分支机构是以前网络不发达的时候的事情，现在您看银行的分支网点都已经慢慢变成无人办公了，全是一些机器直接联网，客户自己操作，出门现金都不用带，也不用去找银行存取钱了，所以现在不是很多银行的小网点都被取消了嘛，这是一个道理，以后是网络的天下，理赔都是通过保险公司电话报案，邮寄理赔资料，甚至有的都可以通过网上直接提交资料，就可以理赔了，随着时代发展，相信以后只会越来越便捷，没有人会浪费时间再跑分支机构的', 3);
+INSERT INTO `verbal_trick_template_content` (subtitle, content, title_id) values ('不影响理赔','没有分支机构不影响投保的。过去人们买保险都是通过线下进行购买，而不同公司的公司规模、经营水平、盈利能力不同，为了方便进行监管，才有了销售区域的要求。但是现在目前保险都是全国通赔的。购买成功后，您可以直接通过保险公司微信公众号，修改您的实际地址。如果地址不变更，也没有任何影响，后续的理赔都是一样。理赔时直接电话保险公司报案，然后邮寄理赔资料到保险公司即可。您可以直接联系我，我们也有协助理赔的服务，可以提供一对一理赔专员全程协助。
+如果客户有详细询问为什么会有地域限制？可视情况答复，尽量做到简短明确，没问的不用说太多。
+', 3);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('文字沟通：
+您好，目前保险公司是支持全国通赔的，现在国内人口流动性很大，换工作和变更住址的情况再正常不过了，无论被保险人在哪里出险了，保险公司都会支持理赔的。理赔时直接电话保险公司报案，然后邮寄理赔资料到保险公司即可。我们也有协助理赔的服务，您也可以直接联系我或者拨打我们客服电话：400-081-0388，我们提供一对一理赔专员全程协助。（文字依然纠结，可以电话沟通）', 3);
+INSERT INTO `verbal_trick_template_content` (subtitle, content, title_id) values ('直接建议','（语气坚定）这个问题您不用纠结，绝大部分普通家庭建议保到70岁就可以了，没必要买保终身，终身太贵了。那如果我们预算很充足其实保终身没有问题，但是我们预算有限的话就一定要做到，现在先花最少的钱保证青壮年期发生重疾的时候，就可以拿到足够多的钱，比方说一个人75岁得重疾，一个人40岁得重疾，那您觉得谁更需要钱？理解了吧', 4);
+INSERT INTO `verbal_trick_template_content` (subtitle, content, title_id) values ('理赔高峰','是这样的，*女士/先生，首先从各大保险公司的理赔数据来看健康险的理赔高峰期是30-60岁，重疾险理赔高峰更加是40-50岁，虽然这不能完全说明发病率，但也能反映一个问题，我们一直在说的买保险就是要做高保额，打个比方同样的几千块钱（看给客户做的是多少钱）买到70岁（看给客户是做到多少）是可以做到50万的保额（看给客户是做到多少），但是如果保终身应该就只有30万不到的保额了，您看为了那不确定的70岁之后的时间，却降低了我们现在经济压力最大的30-60岁（看客户年龄）的时间内的保额，（如果客户坚持想要保终身的，可以做给客户对比看）', 4);
+INSERT INTO `verbal_trick_template_content` (subtitle, content, title_id) values ('高保额','首先我不知道自己会不会发生两次重疾，我们一般都是配置终身搭定期的方式，搭配定期到70岁。因为我们要保证在承担家庭主要责任的这段时间内把保额做高值。并不是说70岁以后不会得重疾，只是相对来说概率会小一点。不知道你有没有看过相关报道，现在癌症是越来越年轻化了，对吧。（停顿）而且就算是70岁以后得了重大疾病，基本上都是保守治疗。你不可能化疗的，一化疗人会扛不住的。吃中药也好，西药也好，都是保守治疗。所以说我们在预算有限的情况下，一定要在高发阶段，把保额最高。其次再考虑年限的问题，如果我们预算充足了全部买终身都可以。但我们预算不够的情况下，一定要保证额度优先。就像你说的没错，三年以后，我自己家庭收入增长了，再给自己配一个终身重疾，把保额做高，把年限拉长，也是可以的。因为重疾保险不可能一步到位的，它是一个不断累积的过程。很多跟您一样的客户都是打算现在先做个高保额，过几年经济更好了，可以再来加，保险就是一个不断搭配的过程', 4);
+INSERT INTO `verbal_trick_template_content` (subtitle, content, title_id) values ('预算有限','您这个问题问得很好，*女士/先生，首先从各大保险公司的理赔数据来看健康险的理赔高峰期是30-60岁，只是我们一直在强调买保险就是要买保额，当然如果您预算很充足的话买到终身不是不可以，只是在我们现在的预算下，我给您配的这种保到70岁（看给客户是做到多少）保50万（看给客户是做的多少保额）是最合理的，不然要保到终身的话保费要翻一倍，就超过您的预算了，或者预算不变的话就只能保不到30万了，您想一下如果发生了重疾，是50万好还是30万好？所以我们还是坚持先做高保额做到70岁先，这样您可以理解吧。', 4);
+INSERT INTO `verbal_trick_template_content` (subtitle, content, title_id) values ('直接建议','这个问题不需要纠结，建议您买单次就可以了，没必要买多次，多次太贵了。（与其坚定）我们不知道以后会不会得两次重疾，三次重疾，这是我们没办法评估的，我们做不到。但是我们可以做到，发生第一次重疾的时候，就可以拿到足够多的钱。您说对吧', 5);
+INSERT INTO `verbal_trick_template_content` (subtitle, content, title_id) values ('高保额','是这样的，*女士/先生，我们一直在说的买保险就是要做高保额，我们现在花几千块钱（看给客户做的是多少钱）买到是单次重疾赔付是可以做到50万的保额（看给客户是做到多少），但是如果保个五次六次的那种产品应该就只有30万不到的保额了，何况您见过几个人那么倒霉一辈子得个三五次重大疾病的，那其实都是噱头，我们现在只要保证第一次重疾能够得到足额的赔付好好治疗就是现在最好的选择，您说对吧（如果客户坚持想要附加或换多次赔付的，可以做给客户对比看）', 5);
+INSERT INTO `verbal_trick_template_content` (subtitle, content, title_id) values ('预算有限','您这个问题问得很好，*女士/先生，我相信您自己心理都清楚重疾多次赔付基本也就是个噱头而已，毕竟一个人得多次重疾得概率太低了，我们一再强调买保险就是要买保额，当然如果您预算很充足的话买多次赔付的或者给您这份附加上癌症二次赔付也不是不可以（如果有的话），只是在我们现在的预算下，我给您配的这种是最合理的，要不就要降保额了，不然就要加保费了，您想一下如果发生了重疾，是50万好还是30万好？所以我们还是坚持把第一次赔付的额度先做高，这样您可以理解吧。', 5);
+INSERT INTO `verbal_trick_template_content` (subtitle, content, title_id) values ('直接建议','我建议买消费型的就好了，返还一般也是几十年后了，那个通货膨胀也很厉害，指望靠这个来理财是不现实的，因为返还的一般也比消费型的贵很多，我们现在预算有限的情况下，几十年后的那点钱先不要去想，当然是花现在最少的钱买最高的保额，高保额才能有效抵御疾病风险，您说对吧？', 6);
+INSERT INTO `verbal_trick_template_content` (subtitle, content, title_id) values ('从众心理','消费型比较适合大部分的家庭，可以在有限预算内做高保额，提高杠杆，最大程度分散风险；因为同样保50万，消费的只要5千，而返还就要1万了，相同保费买的高额不够高，其次，如果提前发生重疾，合同就结束了，为了返还多交的几千块钱相当于打水漂了；最后即使拿到了返还，几十年之后钱也都不值钱了。返还型比较适合预算非常充足，又管不住钱担心乱花的家庭考虑，对于大多数家庭来说，买消费型重疾就好了，性价比比较高。', 6);
+INSERT INTO `verbal_trick_template_content` (subtitle, content, title_id) values ('详细解释','首先是这样的，我给您解释一下，返还型的市面上分两种，一种是早几年比较多的，就是保到六七十岁，没有发生理赔身故或到期就100%，或者105%，110%左右返还所交保费，甚至有的产品是只返还现金价值，那您想想几十年后返还这的这点钱也早就不值钱了，这种类型的产品现在基本上也很少了，因为确实不划算，现在的所谓的返还是指身故赔保额，要人不在了，才把钱给受益人，当作是遗产了，这其实就是加了一份寿险的功能，但是它又是重疾和身故共享保额的，只能赔一次，与其这样，还不如买一份消费型的重疾，再用多出来的保费买一份寿险，这样更划算。这两种返还型的都比消费型的贵很多，比如您买返还型的，花了6000，实际上买重疾可能只花了3000，另外3000保险公司拿去投资才能保障有一定的钱返还，但其实您大可以只花3000买重疾，另外3000买定期寿险也行自己拿去投资也行，同样的钱可以获得更好的回报，这样介绍您理解了吧', 6);
+INSERT INTO `verbal_trick_template_content` (subtitle, content, title_id) values ('举例子','这样，我给您举个例子您就很清楚了，两个人买保险，一个人花6000买了50万保额带身故返还的，另一个人花5000一样买了50万的保额消费的再加了一份1000块保100万的定期寿险，如果同样10年后发生了理赔，都赔了50万，合同结束了，但是一个花了10万保费，一个人花了5万保费还有一份100万的寿险在，那如果都没有理赔，都在保险期内身故了，第一个人赔了重疾50万，第二个人重疾不赔，但寿险赔了100万，这2个人您觉得哪个划算？（停顿）肯定是第二个人划算嘛，对吧，所以保险是需要配置的，您看我给您搭配的这个重疾险也搭配了一个寿险做补充对吧（介绍产品亮点）', 6);
+INSERT INTO `verbal_trick_template_content` (subtitle, content, title_id) values ('简单回答','我们配置重疾险，首先要考虑的就是保额，其次是保障时间，终身+定期的方式既可以做高保额又可以兼顾到保障时间，而且这样搭配花费的费用是最少的。（简单的回答，如果客户不能接受继续摆出下面的观点）
+', 7);
+INSERT INTO `verbal_trick_template_content` (subtitle, content, title_id) values ('详细解释','70岁之前我们的重疾保额有60万，70岁之后重疾保额有30万，因为70岁之前我们有很强的收入能力，一旦得了重疾会有很大的收入损失，但是70岁之后我们收入能力降低，所以我们那时候更多的考虑是如何解决医疗费的问题，而不是关注收入损失。说实话，我们之所以担心害怕生病，不是害怕自己的病能不能治好，而是怕花费太多的医疗费用从而影响家人的正常生活，我们了解下来大部分客户都是这样的想法，相信您也有同样的担心，对吧?其实医疗费的问题我们是可以通过社保和商业医疗保险去解决，不会对我们家人的生活造成影响。所以我们70岁之后重疾保额有所减少也是没有多大影响的，终身搭配定期的方式当前阶段不管从费用还是从性价比方面也是最适合咱们的！', 7);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('一万块钱以内，我们一般的工薪家庭都是能够接受的，不会对家庭造成太大的伤害，给家庭带来风险的都是巨额医疗费用支出，比如目前高发的癌症治疗，动辄都是几十万的医疗费支出，所以我们配置百万医疗险，是为了解决巨额医疗险费用，给家庭带来的风险。如果没有设置一万块免赔额，一来产品价格会很贵，二来产品稳定性差，产品停售风险大，要知道目前市面上还没有一款百万医疗险可以保证一直续保。所以长远考虑，性价比高，稳定性好的医疗险，才是更好的选择。', 8);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('意外险主要保障的是意外导致的身故、伤残，以及意外医疗支出等，一般是作为社保的补充，保障日程生活中的意外医疗和伤残保障。寿险主要是保身故和全残，包括，疾病身故，自然身故和比较高发的猝死，这些都是意外险不保障的，主要是给家庭经济支柱投保，保障的是家庭风险。所以意外险是基础，很重要，但是无法覆盖到家庭全部的风险，两者结合才是合理的搭配。', 9);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('百万医疗险主要是解决由于大病治疗而产生的高昂医疗费。报销住院期间的医疗费，不管是意外还是疾病都有包含，可以弥补我们医保自费的部分以及大额医疗费用的开销。重大疾病险保障的是重疾、中症，轻症等，像常见的各种癌症，心脑血管疾病都是有保的，符合条款约定就可以一次性赔付几十万。重疾险关注的是收入损失保障和康复疗养费用，而这一块医疗险是无法保障的，所以两个险种是不重复，所承担风险保障是不一样的。', 10);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('您是打算和哪一款产品对比呢？【如果有产品对比】直接从现推产品优势上去强调。【如果没有具体产品】您找到我们来做方案也是为了节省自己的时间精力对吧，专业的事情交给专业的人做，我们规划师天天接触市面上的最新产品，刚出的产品优缺点了解得都非常清楚，如果您是具体项对比哪一款倒还可以直接告诉我，如果是想自己花时间去找那我可以说给您推荐的这个方案就是目前市面上性价比最高的了，您看（直接讲方案产品的优势），+促成', 11);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('首先A产品是由**公司承保的，它的优点是（特点）......它的不足就是.....,那 B产品是由**公司承保的，它的优点是（特点）......它的不足就是.....,；两款产品对比的话，相同点有.....,最大的区别是......,所以结合您现在的实际情况（具体什么情况），我的意见是......', 12);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('当然可以，我们是秉持着深蓝保的公正客观服务原则，并不局限于推荐我们自己平台产品；而是从全网为您选择性价比最高的产品，您可以通过我推荐给您的渠道去购买备选产品，后续服务直接联系保险公司。', 13);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('备选产品是别的平台的定制产品，我们没法合作，给您推荐的产品也不错，但从性价比上来说备选产品确实要好一点，只是购买，核保理赔您也需要自己跟进，如果是选择我们平台的产品会协助购买，核保理赔等服务，您自己选择就可以了。（客户纠结的话，可以直接给建议买哪个）', 13);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('当然可以买，只是比较抱歉， 备选产品没有和我们平台合作，不能通过我们的平台购买，需要您自己去给您推荐的销售平台购买，核保理赔您也需要自己跟进。所以您考虑清楚就可以。', 13);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('这个比较抱歉， 合作平台没有代理的产品，需要您自己去其它可以销售的平台购买，后续核保理赔您也需要自己跟进。', 14);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('您要知道保险最初的目的就是一个互助计划，相当于大家有能力的时候各拿一点钱放到一起，谁出事了，就拿钱去帮他，没有出事也帮到了别人，做了善事，也挺好的对不对？', 15);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('不会白交的，我理解您的想法，但您要知道现在咱们购买的是保障型产品并不是理财型的，我们的初心就是把保障做好对不对，首先，我们在人生最黄金的阶段把风险转嫁给保险公司，我们心理上获得了安全感；家庭也更稳定，当然，我们本来就是无法保障未来的这几十年会不会发生理赔，再说中国人的重疾发病率高达72%，万一不幸碰上了呢，拿着保险公司赔的钱去做最好的治疗；如果没有发生理赔，我们其实应该高兴，健健康康的享受人身，所以到底会不会发生重疾我们不知道，但只要把风险转嫁给了保险公司，那我们就没什么好后悔的，您说对吧', 15);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('您好，请稍等一下，我给您发一下链接。
+其实在方案内的链接或者在小程序和保险严选投保都是可以的。
+只是我们会专门为付费做家庭规划的客户开通一个专用账户，如果您直接通过方案内的链接投保，更有利于我们专属规划师做好您的售后服务和保单管理。', 16);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('“忠诚客户”权益是保险公司额外提供的增值服务，我相信保险公司能在投保页面显示这项服务，它也一定会遵守承诺，为符合条件的客户提供相应的服务的。
+在同样的保障责任和保费的情况下，有这些增值服务是最好的，但是这并不是我们选择一款产品的决定因素。买保险首先还是看它的保障责任 ，***这款产品......（介绍产品优点、转移话题）', 17);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('如果您看重大公司：
+这款产品在线下产品中算是（性价比比较**）的产品了，如果买保险一定要买一些听过的大公司的才会放心，那您也可以选择阳光人寿的i保C款重疾，最长可以选择30年缴费，轻症赔付比例更高，而且保费更便宜，如果比较看重大公司，建议您可以选择阳光的这款。
+如果想要保障全面：
+刚刚说到的这2款线下产品都是储蓄型重疾，保费比消费型的要贵很多，但重疾和身故却是共用保额的，只会二赔一。如果单纯地考虑大病保障的话，我给您配的这款会更具性价比。如果 您同时还想要身故保障，解决身故给家庭带来的经济风险，那您可以再单独配置一款定期寿险，这样搭配着买，重疾和身故两种责任是可以一起赔付的，保障功能更全面。
+从保费来说，同样是保终身，30岁男性，50万保额线下的产品每年保费1万2左右，而线上的产品一般几千元左右。
+所以，如果单纯地考虑大病保障的话，我给您配的这款是性价比更好一些。', 18);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('目前大麦定寿的体检版只在华贵人寿官微销售，您可以关注一下公众号查看。
+体检版对于极少部分身体素质非常好的人来说有一定的费率优势。如果您对自己的身体非常自信，也愿意去指定医院体检，那可以尝试一下。我们之前有身体特别好的客户尝试了体检版，体检后保险公司给出的投保结论，之后算下来并没有比免体检版便宜多少。因为现代人身体或多或少都有些小毛病，我们不能保证检查报告就一定能够满足体检版超优体的要求，如果体检查出其他疾病，对我们以后购买其他产品也有一定的影响。
+其实大麦免体检版本身就已经非常便宜极具性价比了，所以建议您再慎重考虑一下。', 19);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('现在在售的保险产品有上千款，我们也不可能每款都了解。您可以先把需要对比的发给我，我去了解一下。
+分两种情况：
+1、不需要方案，就是对比一下条款（截取某一段条款发过来）
+不好意思，因为保监会监管方面的要求，也为了防止销售误导，不是我们代理销售的产品，我们是没有解答资质的。具体到产品条款，建议您可以电话咨询一下保险公司，以保险公司回复为准。
+2、客户就是想简单地了解一下产品的保障内容
+这个您可以先给我，我先去了解一下。
+然后简单地跟客户讲一下产品的保障特点。', 20);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('您看这样是否可以，我先核实一下您的问卷信息，按照您实际情况为您配置一份符合您家庭的保险方案。我会把保费和产品的保障内容给您罗列下来，您看到方案之后就会一目了然了。如果还有不清楚的地方，我可以再给您说明一下。
+思路：
+如果客户也是找我们做方案的，按照正常的流程核实客户信息，配置出方案之后，让客户自己对比一下保费和保障责任的区别。', 21);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('购买时符合要求，购买之后身份变化或者移民，对理赔会有一定的影响。
+①身份发生变化，理赔时需要提供身份证明（比如证明护照和身份证是同一人）。
+②同时因为条款对于就诊医院有明确规定，所以如果在国外出险，最好去类似于国内公立医院的有资质的、有24小时看护人员的大型医院。（家庭医生、私人诊所一般无法理赔）
+③并且大陆疾病定义与国外也有一定差别，后续理赔时除医生确诊证明之外，保险公司可能也会要求大使馆出具证明等。
+
+所以，因不同保险公司要求不同，我们建议最好及时告知保险公司，或者回国后在条款约定的医院进行治疗也可以。', 22);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('我理解，咱们想想钱放在哪里不贬值？（笑一笑），钱放在哪里都会贬值的，没有好的办法，就算投资也还不知道是亏是赚，保险本身就是用很少的保费来增加杠杆获得较高的保额，抵御风险的，您想想现在不是让您交几十万，咱们只是交几千块保费，到时候几十万再贬值也比咱们自己的几千块值钱吧。', 23);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('您说的没错，因为通货膨胀货币贬值嘛，这是客观存在的问题。所以我们保险不是一次性全部买完的，而是根据我们的预算以及收入来看的。如果现在您一年收入十万，可能过几年收入就二十万三十万甚至更高，那时候我们的保险也肯定会做相应的增加和补充的，所以您完全不用担心这个问题。那目前根据您的综合情况，我们就帮您做的重疾XX万，意外XX万寿险XX的额度，咱先把目前的保障做全面嘛。您可以先尝试投意外的……（促成）', 23);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('这个问题我们也有请教过保险公司的精算师，精算师说其实保险产品在定价的时候就已经考虑了通货膨胀。他们在做产品定价时，会对理赔款的支付时间进行预测，对于同样的保险金额，在不同时点支付所对应的那部分保费是不同的，这个就是考虑了时间价值，与通货膨胀是一致的。
+另外，说到通货膨胀，我们看到过去通货膨胀率很高，主要是经济发展快，我们的GDP都是持续两位数以上的增长。但近年来我们GDP增长已经是个位数了，与此同时，通货膨胀率也下来了，未来再高起来的概率也不是很大了。
+同样的选择分期交保费，也是可以抵消部分通货膨胀的。这也是我们推荐大家尽可能选择长缴费期的原因。在缴费期限内，保费是固定的，并不会因为通货膨胀而提高，按当前的物价指数来看，相当于未来会少缴保费。
+
+保险配置也是一个不断完善的过程，如果您还是对保额的贬值比较担忧，那您也可以选择追加投保，或者在投保时一次性买足。', 23);
+INSERT INTO `verbal_trick_template_content` (subtitle, content, title_id) values ('合适更重要','我明白您的想法。我也相信未来是可能有更好的保险产品的，但其实没有最好的产品，只有适合目前家庭情况的保险，而方案我已经给到您了。我们购买保险的目的就是为了防范未来的风险，谁也不知道风险什么时候就来了，所以尽早落实更重要。', 24);
+INSERT INTO `verbal_trick_template_content` (subtitle, content, title_id) values ('举例子','就像我们买手机，今天华为新出一款手机，明天苹果也新出一款，功能肯定越来越强大，但问题是很多功能其实我们用不到，其次一直没买的话，也一直享受不到它的功能。比如我们现在要买手机，新出了一款苹果11，总不能想着后面可能有苹果12更好，就一直不用手机吧？', 24);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('非常抱歉，因国家政策原因，我们不评测香港保险。不过可以告诉您的是香港保险是不受大陆保险法的保护和保监会监管的，又因为以美元结算，所以存在一定的外汇风险。现在大陆的保险性价比已经很高，您可以放心选购。', 25);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('之前我们说到寿险其实就是给到家人的一份责任，在我们身上责任最重的时候把保额做的足够高，这样即便发生什么风险，不会影响到家人的生活。但是我们在70岁（30年）以后，基本上孩子已经大了，可以自己工作挣钱了，我们的车贷房贷也还完了，基本上不用承担什么家庭责任了，所以这时候寿险就显得没那么的重要。当然预算充足买终身寿险肯定更好，那在预算有限的情况下，我们就买定期的，先把额度做高一点。就算将来钱不退回来也没有关系，至少证明了我们身体健康活到老，这是花多少钱都买不来的，本来我们就不希望靠保险来挣钱，您说对不对？', 26);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('明白，重疾险带身故责任有一个好处，不涉及责任免除和除外的条件下，几乎是必赔的，因为人固有一死，要么赔重疾，要么赔身故。但是缺点是需要另外加钱，而且赔了重疾就不能赔身故了，只能赔其中一个。建议您购买定寿+消费性重疾做搭配，重疾险在买足保额且保障期限在终身的情况下，再考虑附加身故责任。', 27);
+INSERT INTO `verbal_trick_template_content` (subtitle, content, title_id) values ('简单解释','这个是可以投保的。过去人们买保险都是通过线下进行购买，而不同公司的公司规模、经营水平、盈利能力不同，为了方便进行监管，才有了销售区域的要求。但是现在目前保险都是全国通赔的。购买成功后，您可以直接通过保险公司微信公众号，修改您的实际地址。如果地址不变更，也没有任何影响，后续的理赔都是一样。理赔时直接电话保险公司报案，然后邮寄理赔资料到保险公司即可。您可以直接联系我，我们也有协助理赔的服务，可以提供一对一理赔专员全程协助。
+( 如果客户有详细询问为什么会有地域限制？可视情况答复，尽量做到简短明确，没问的不用说太多。)', 28);
+INSERT INTO `verbal_trick_template_content` (subtitle, content, title_id) values ('可以填写自已所在地区地址，可以自己先填写客户的地址并截图给客户','*女士/先生，是这样，保险公司规定这4个地方投保，是因为它在这4个地方有分支机构，理赔是全国进行理赔的，您也看到了后期地址是可以进行更改的，我刚刚截图给您，看到（客户居住的地方）是可以填写居住地址的对吧，包括纸质保单也是可以寄到（客户居住的地方）您家里来的，所以这块是不受影响的，就比方深圳的银行，工作人员是不能跑到河南河北其他地方去招揽业务，但是河南河北的客户依然可以把钱存在深圳的银行，，对不对，所以您是在互联网上投保，保险公司只是友情提示，其实后续理赔是没有影响的，就可以了，之前的客户也都购买没有问题，您投保的时候走过健康告知，之后需要您填写您的个人信息，身份证号码地址和居住地址，居住地址你就可以填写您现在的地址，以后要随时变更也可以，纸质保单也可以给您寄到现住地址来，之前的客户也都购买没有问题。', 28);
+INSERT INTO `verbal_trick_template_content` (subtitle, content, title_id) values ('需要更改地址下单的','您好，这个问题是这样的，目前保险公司是都支持全国通赔的，毕竟现在国内人口流动性很大，换工作和变更住址的情况再正常不过了，所以无论被保险人在哪里出险了，保险公司都会支持理赔的。理赔时直接电话保险公司报案，然后邮寄理赔资料到保险公司即可。我们也有协助理赔的服务，您也可以直接联系我，我们可以提供一对一理赔专员全程协助。
+举一个自己的例子暗示一下。（比如我现在在深圳工作买了深圳分支机构的保险，但是我以后回老家了在湖南没有分支机构，但是我可以在保险公司变更我的常住地址变更成湖南，那也是没有任何问题的，但我在网上投保保险公司其实并不知道我买的时候到底是在深圳还是在湖南，但出险了他全国都是可以赔的。）所以您不用担心这个问题。。
+', 28);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('文字沟通：
+您好，目前保险公司是支持全国通赔的，现在国内人口流动性很大，换工作和变更住址的情况再正常不过了，无论被保险人在哪里出险了，保险公司都会支持理赔的。理赔时直接电话保险公司报案，然后邮寄理赔资料到保险公司即可。我们也有协助理赔的服务，您也可以直接联系我或者拨打我们24小时客服电话：400-678-8169（您也可以直接联系我，或者工作日拨打我们客服热线：400-081-0388，我们可以提供一对一理赔专员全程协助。（文字纠结，可以电话沟通）', 28);
+INSERT INTO `verbal_trick_template_content` (subtitle, content, title_id) values ('服务','（微笑，语气柔和）*先生/女士，保险价格都是全国统一，您在哪里买都是一样的，我们给到客户最大的优惠就是我们提供的专业服务，投保成功后，我们会提供免费的协助理赔服务，这些都是实实在在的利益。', 29);
+INSERT INTO `verbal_trick_template_content` (subtitle, content, title_id) values ('违规+皮夹','保费是保险公司的精算师算好的，费用全部都是统一的 ，而且保监会有明文规定保险是不可以打折的，这个是属于违规操作 ，我给您推荐的产品的费率算是非常低了，您投保之后犹豫期过了，我给您发个链接您填写地址，我们会有一个价值258元的保单管理夹赠送给您哦，附带有U盘、所有保险公司联系电话和理赔索引等，方便您更好的管理家庭成员的所有保单', 29);
+INSERT INTO `verbal_trick_template_content` (subtitle, content, title_id) values ('坚定','（语气坚定）*先生/女士，保险价格都是全国统一，我们作为专业中立诚信的保险咨询平台，是不会去做违规行为的，您也不要为难我，我给您推荐性价比最高的产品和最合适的产品搭配就已经是帮您省钱了，对不对？', 29);
+INSERT INTO `verbal_trick_template_content` (subtitle, content, title_id) values ('服务+皮夹','*先生/女士，您不要为难我（笑一笑），我们认真负责的为您提供前期的保险对比、筛选、答疑，这也是等于帮您省钱了，免得多花冤枉钱嘛，同时我们还会提供免费的协助理赔服务，这些都是实实在在的利益。（停顿）这样吧，如果您成功投保重疾险和定期寿险，我帮您去申请赠送保单管理服务。这个服务包含：保单管理皮夹：方便保存家庭的纸质保单；保单管理U盘：里面有保单管理的电子表格。同时我们还为客户开发了最好用的云在线保单管理工具，您可以在线录入保单，备份给家人。（客户如果继续要优惠，就把价值258的保单管理皮夹的作用再次强调一下）', 29);
+INSERT INTO `verbal_trick_template_content` (subtitle, content, title_id) values ('皮夹U盘','（轻松预约）理解理解，价格肯定是全国统一的，但因为之前很多用户跟我们反馈纸质保单经常容易丢失，很不好管理，所以为了您的保单更好的管理，你投保重疾险和定寿之后我们会有一个额外的价值258元的保单管理皮夹赠送给您，您可以把您家庭的纸质保单全都放在保单皮夹里，放在一个咱们家人都知道的地方，这样咱们家庭都有哪些保险，每个家庭成员都一清二楚了，万一今后有需要理赔的时候，咱们就不用花时间和精力去确定家里人有买过哪些保险，保单在什么地方，真正做到轻松理赔。 （停顿）     当然如果您不喜欢保存纸质的保单，想通过电子保单的形式保存或者对于自己的保单做一个备份，我们再赠送您一个保单管理U盘，您可以把您家庭的电子保单都保存到U盘里，以备不时之需，非常实用，完成投保之后一个月内就给您寄过去了，所以您看您今晚几点方便先完成投保？', 29);
+INSERT INTO `verbal_trick_template_content` (subtitle, content, title_id) values ('了解客户真正问题','您担心什么不安全？你可以说说看（耐心听给对方回答，通常都会绕回小公司或者理赔的问题上，再去针对性的回答）', 30);
+INSERT INTO `verbal_trick_template_content` (subtitle, content, title_id) values ('性价比+服务','（笑一笑）*先生/女士，您这个担心我很理解，谨慎是好事，不过我们还是要想明白，您保险肯定是要买的，对吗？（停顿，看对方反应）如果要买您就只有两种选择，找线下代理人买，或者互联网上买，找代理人买你可能觉得看得到真人会放心一些，但您要为这个真人多花出一倍的保费，可能还不一定是专业的服务，（停顿一下）那找互联网产品，现在也是发展趋势，您可以节省保费，同时还可以享受我们免费的一对一协助理赔服务，不是您一个人和保险公司沟通，您后续有任何保险相关事项，都可以和我联系，也可以联系我们的客服电话：400-081- 0388  ，现在买几万几十万的国际大牌也都是在网上买的了，以后只会越来越方便，您放心好吧？', 30);
+INSERT INTO `verbal_trick_template_content` (subtitle, content, title_id) values ('发展趋势','（微笑）这跟您从哪买没关系，保险公司的服务和理赔对所有客户都是一样的，也只有互联网产品才可以把保险成本压下来，我们才能找到性价比比线下高很多的产品，这必然就是未来的趋势，（与其坚定）您只要负责把产品搞明白，买得清清楚楚，其他服务和对接的事情你交给我们处理就好了，所以现在产品您都清楚了吧？', 30);
+INSERT INTO `verbal_trick_template_content` (subtitle, content, title_id) values ('保险公司','（语气坚定）您放心，投保完成后，可以通过保险公司查询、验证保单。最终都是和保险公司签订保单合同，只是说通过我们购买，除了可以享受到保险公司的服务以外，还可以额外享受我们给您提供的售后增值服务.', 31);
+INSERT INTO `verbal_trick_template_content` (subtitle, content, title_id) values ('举例子','首选我们是经银保监会批准最早成立的互联网保险经纪公司，是有正规的保险经营资质的。其次无论您是通过哪种渠道购买的保险，最终都是和保险公司签定的保单合同。所以无论销售平台发生任何情况，都不影响您的保单利益。我们都是可以直接联系保险公司的。就比如说我们通过京东购买了一个苹果手机，不管京东怎么样，我们依然是享受苹果的售后服务的，对吧？这个跟我们通过第三方经纪平台购买保险是一个道理。', 31);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('不是的，有很多真实的案例，过了两年仍然会拒赔。我们建议买保险一定要做如实告知。
+目前我们国家的保险投保采用的是有限告知，也就是说健康告知没有问的，可以不用告知。
+如果身体有异常，可以选择健康告知相对宽松的产品，也可以做智能核保，还可以提交详细资料走人工核保。如果不告知，等得了重病，理赔的时候还要跟保险公司扯皮，打官司，时间成本太大，还不如直接做好如实告知就好。', 32);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('电话沟通：
+有两种情况，顾问回复时要先问清楚客户是哪种情况（想法）：
+1、客户身体无异常，想要专门去体检一下：
+这个是没有必要的。您可以在投保页面点击立即投保，然后您逐条阅读一下健康告知，如果里面提到的情况您目前或是曾经的就诊记录都没有涉及的，那您直接购买就好。而且万一体检查出来您原来不知道的身体异常，可能会影响投保，所以不建议您专门去体检。
+2、客户身体有异常，想去做全套体检：（如乳腺结节、血压偏高）
+这个不建议您去做全套体检。我们可以先通过智能核保，自己预核一下，如果核保过程中需要一些检查报告，比如说，乳腺结节这种情况，那我们只需要做乳腺方面的专项检查（B超或钼靶检查）就可以了，不需要做全套检查。因为如果在体检中查出其他问题，是会对我们买保险有一定影响的。
+
+文字沟通：
+要不要去体检，分两种情况：
+1、如果您身体无异常，想要专门去体检证明一下：
+这个不需要。您可以在投保页面点击立即投保，然后您逐条阅读一下健康告知，如果里面提到的情况您目前或是曾经的就诊记录都没有涉及的，那您直接购买就好。而且万一体检查出来您原来不知道的身体异常，可能会影响投保，所以不建议您专门去体检。
+2、如果您身体有异常，想去再做个体检
+这种情况不建议做全套体检。比如说，乳腺结节这种情况，只需要做乳腺方面的B超或钼靶检查即可，没必要做全套检查。如果体检中检查出其他问题，对我们买保险是会存在一定影响的。', 33);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('是这样，对于一些小毛病来说，智能核保省去了大量投保和人工核保所需要的时间，根据提示操作一下就立马能指导是否能买，是否要加费，加费多少。投保的时候对于核保的情况不是特别了解的话，还可以用智能核保来作为一种参考，就算最终结果是没办法投保，也不会留下任何核保痕迹！但智能核保的机械化流程还是相对死板的，所以可以先智能核保看能否通过，如果通过不了，再咨询人工核保，而智能核保记录对于人工核保是没有任何影响的，这点您不用担心。如果智能核保通过了，就很方便的正常购买就可以了。', 34);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('不会，这个您放心，这是保险公司正规的核保途径，早几年互联网不发达的时候，邮件核保是主要的核保方式，是有效的。', 35);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('您放心智能核保是不会有记录的，可以多试一下看结果能不能过，人工核保被拒保，也只会影响再这一家保险公司的记录，之后我们换其他公司的时候重新核就可以了', 36);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('是这样的，同时像医疗险和意外险的核保标准肯定是不一样的，毕竟理赔条件不同，同样是重疾险各家保险公司对于核保的大方向是差不多的，但每家公司会有自己的具体的核保标准，所以是有所不同的。（所以我的建议就是同时核保几家看哪一家最后的结果是最好的）', 37);
+INSERT INTO `verbal_trick_template_content` (subtitle, content, title_id) values ('简单解释','（先笑一下）简单点说，保费没有区别，保险合同和条款也没有区别，区别就是过程中以及后续的我对您的一系列服务（笑一笑），像以后您有任何保险问题，都可以联系我，我直接帮您解答。', 38);
+INSERT INTO `verbal_trick_template_content` (subtitle, content, title_id) values ('保险合同','您好，不管通过哪个渠道投保，最终都是保险公司承保，我们的保单权益，保障内容都是一样的，当然，产品费率也是一样的。比较大的区别就是享受的服务不同。您通过我们购买了保险，还可以享受更多的增值服务。（产品解答、方案规划、协助投保、协助理赔、保单管理等）。既然在哪买都一样，花同样的钱，还能多得一份服务，那当然最好了对不对？', 38);
+INSERT INTO `verbal_trick_template_content` (subtitle, content, title_id) values ('服务区别','您好，我们跟慧择（其他平台）的区别主要有以下四个方面：
+第一，从产品的选择上来说，我们会从全网推荐适合您的产品，比如我们会推荐支付宝、微信等平台上的高性价比产品，而不仅仅局限于平台产品。
+第二，从配置思路上来说，我们都是经过深蓝保严格筛选并培训的，保险理念和配置思路与公众号文章是一脉相承的。
+第三，在服务理念上，我们秉承深蓝保中立、客观、专业的理念，会为您推荐高性价比的保险产品，并且最终呈现给您的方案也是经过严格审核的，相对比较详细和精致。
+第四，我们有更好的保单管理。除了提供云在线保单管理服务以外，我们还会额外赠送保单管理夹，方便客户做好保单和纸质合同的保存和管理。 ', 38);
+INSERT INTO `verbal_trick_template_content` (subtitle, content, title_id) values ('文字沟通','
+您好，我们的区别主要有以下几个方面：
+1、产品的选择。我们会从全网推荐适合您的产品，不仅仅局限于某个平台。比如我们会推荐支付宝、微信等平台的高性价比产品。
+2、配置思路。我们规划师都是经过深蓝保严格筛选并培训的，保险理念和配置思路与公众号文章是一脉相承的。
+3、服务理念。秉承深蓝保中立、客观、专业的理念，为客户推荐高性价比的保险产品。最终呈现给您的方案也是经过严格审核，相对详细和精致。
+3、更好的保单管理。除了提供云在线保单管理服务，我们还会额外赠送保单管理夹，方便客户做好保单及纸质合同的管理。', 38);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('您好，我们是没有提成的。我们的考核标准是服务质量和客户满意度。我们的工作重点是帮助客户解决问题，提供高品质的服务。如果客户满意度较高，对我的绩效考核是很有帮助的。', 39);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('您的保险合同当然是和保险公司签。保险公司负责您的保障内容。我们给您提供的是产品解答、方案规划、协助投保、协助理赔、保单管理等服务', 40);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('您好，我们是跟深蓝保合作的第三方保险经纪公司。您通过深蓝保预约的保险规划服务由我们来提供产品解答、协助投保和理赔等一站式服务。', 41);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('我们是齐欣云服，是中国最早的互联网保险经纪公司，目前我们跟近百家保险公司合作，可以提供产品解答、协助投保和理赔等一站式服务。', 42);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('您好，我这边是跟深蓝保合作的第三方保险经纪公司，合作方具体怎么赚钱，我这边不太清楚。', 43);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('深蓝保主要做保险测评，并不销售保险产品。我们是接受过深蓝保的培训的第三方经纪公司，给您配置保险方案的理念和深蓝保的理念是保持一致的，客观中立，帮您挑选市面上性价比最好的产品。', 44);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('这个是谣传，深蓝保主要做保险测评，并不销售保险产品。我们是跟深蓝保合作的第三方保险经纪公司，您预约的服务由我们负责，我们可以为您提供产品解答、方案规划、协助投保、协助理赔、保单管理等一站式服务。', 45);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('1.您问得这个问题之前也有客户问过我，但是说实话我是今年才开始对接深蓝保的业务的，之前给您介绍过我们公司跟深蓝保有合作，您预约的保险规划服务由我们公司这边来提供，深蓝保为我们规划师提供培训和指导，但并不参与业务销售，以前是什么模式我也不清楚，但目前的对接模式是完全合规的，您可以放心，    2.另外如果您真的去深究，几乎所有大牌保险公司都有被保险罚款的记录，（比如。。。网上一查一大把）但是不影响它继续发展壮大啊，因为有问题不要紧，罚点钱改了就可以了，如果深蓝保真的有很严重的问题，监管机构不会只是罚个款的，毕竟深蓝保的理念是符合国家政策的，所以本来就问题不大，改了就是好同志，继续好好发展就可以了，目前我们公司和深蓝保的合作是完全合规的您放心，     3.再说您买的保险是和保险公司签合同，既不是和我签也不是和深蓝保签，后续的保障责任是保险公司带给您，您只要确定我现在为您配置的是最优的方案就可以了，并没有多收您半分钱还给您省钱了对不对。', 45);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('您好，深蓝保成立于2015年，是一家专业的互联网保险测评机构，而保险规划等相关服务由合作的保险经纪公司提供。规划师都经过严格筛选和培训，您可以放心。', 46);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('您好，互联网是一个开放的平台，任何人都可以在网上发表文章，您说的这个律保我不是很清楚，您发给我的文章我也是第一次看到，确实不了解，也无法判断其内容的真实性。
+您发的文章，我看了，他说的注册方法是不合规的。如果想要销售保险产品，是需要找到当地有资质的保险公司或经纪公司注册的，目前银保监会对保险从业资质要求还是很严格的，并且返佣也是银保监会严令禁止的。', 47);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('您好，我从事保险行业已有 X 年了，曾先后在 X 家大型保险公司从事过保险销售业务，目前每个月为近百个家庭规划保险方案。', 48);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('您好，我从事保险行业已有 X 年了，曾先后在 X 家大型保险公司从事过保险销售业务，目前每个月为近百个家庭规划保险方案。', 49);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('您好，从业人员只能在一家公司登记，如果换了公司，原来的就会注销，在新公司重新登记。', 50);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('产品来说，都是一样的。但具体到每个人或家庭，各自的情况又不尽相同，相同的产品不同的情况，如何选择，如何搭配，如何买才能做到高性价比，这些就需要专业化的建议。您买的就是专业服务。并且您付费成为专属客户后还能享受后续专业的投保协助，理赔协助等一站式服务。', 51);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('这个是可以的。您可以添加我们的客服微信号：SLFW01，或者打我们客服电话400-081-0388 欢迎您对我们的服务提出意见和建议。', 52);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('您好，齐欣云服是经银保监会批准最早成立的互联网保险经纪公司，是有正规的保险经营资质的。并且我们规划师都是经过深蓝保的严格筛选并培训认证，给到您的方案跟深蓝保的理念都是一脉相承的，这一点，您可以完全放心。', 53);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('您好，慧择是一家保险经纪公司，除了跟保险公司合作对接保险产品外，还会跟一些外部平台进行合作，比如深蓝保这样的微信公众号，而齐欣云服就是慧择网对外合作的部门，深蓝保就是跟齐欣云服合作对接的。所以您通过我们给您发的链接投保也是相当于通过慧择网购买，您购买之后可以通过拨打慧择网的客服电话查询到您的保单的，或者拨打慧择的客服的电话也是可以问到齐欣云服跟慧择的关系，所以您通过我们给您发的链接投保是没有任何问题的。', 54);
+INSERT INTO `verbal_trick_template_content` (subtitle, content, title_id) values ('时效+服务','所有保险公司，理赔都是一样的，这一点您完全可以放心。根据保险法的规定，一般情况下，自保险公司收到理赔资料起，3-5个工作日内做出核定，核实无误，达成理赔协议后，10个工作日理赔金会打到客户指定账户。如果案件比较复杂，也会在30天内给出核保结果。重疾险中就有关于理赔时间的相关条款。我们也有协助理赔的服务，您也可以直接联系我，或者拨打我们的我们可以提供一对一理赔专员全程协助。安排一对一理赔专员，全程协助客户去理赔的', 55);
+INSERT INTO `verbal_trick_template_content` (subtitle, content, title_id) values ('理赔资料','不会麻烦的，其实主要就是收集理赔资料要齐全，所以出险后一定要第一时间报案，报案之后保险公司会有专人负责跟进的，我们也会有专门的理赔专员协助客户，根据保险公司的要求准备所需的材料文件，准备好了之后邮寄给保险公司就好了，保险法对保险公司的理赔时效是有规定的，资料齐全后30天内它必须给出赔付结果，目前全国的保险公司理赔率都在97%以上，各家公司之间差异不大，只要是保障责任范围内的，理赔是很顺利的，您放心好了。', 55);
+INSERT INTO `verbal_trick_template_content` (subtitle, content, title_id) values ('讲故事一','我之前有协助一个客户理赔，他是三月份投保的，然后七月份的时候等待期刚过，有一天晚上在外面吃宵夜，就突发脑出血昏迷了，隔壁吃宵夜的人把他送到医院去的，然后他太太也是当天半夜联系我，我也是第二天早上才一看到马上跟他太太联系了解了情况，知道是出险后赶紧第一时间联系了我们公司的理赔团队，公司也派出了在北京当地的理赔专员，跟她联系，还到医院去看望了他，然后协助她一起向保险公司报案，准备材料，过程中跟保险公司反复沟通，因为他当时去的是一个私立医院，其实理赔也是有争议的，但是最后在我们共同努力下，保险公司还是确认理赔了，重疾是50万，医疗费报销了17万多，10月份的时候钱就赔下来了                                                                                             【讲故事二】我一个同事的客户是一个年轻女孩子，买了2000多块钱的50万的重疾，刚买还没有过等待期，才两个多月的时候，她就发现脖子上不舒服，有一个肿块就来咨询我们规划师，说要不要去检查？当时我们为了她的权益考虑，我们建议她等待期过了再去，她后面在第93天去医院检查，结果就是甲状腺癌，然后这个时候我们就协助她像保险公司申请理赔，因为如果他是在90天之内去检查，等待期还没过是不会赔的，然后呢，90天刚过了就检查出癌症，那这个时候保险公司其实是怀疑她是带病投保，所以保险公司会去查她过往的所有的医疗记录，会查的非常的细，这个过程当中我们也一直有理赔专员来协助她去跟保险公司争取，因为保险公司查出来她就算多多少少过往都有一点疾病记录，但是这次是第一次发现甲状腺的问题，最后保险公司还是正常赔了50万。                                                                  所以理赔没有想象当中的难，对保险公司来说理赔是很正常的事情，只要是合同保障责任范围内的该赔都会赔，同时我们也会有理赔专员全程协助的，您放心。', 55);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('（慧择客户，首先，您要记得拨打我们的售后报案电话：400-678-8169）；                                                                                  （小雨伞客户，您第一时间在保单助手公众号上申请理赔就可以了）；                                                                                                 首先您要记一下客服电话是400-081-0388；您拨打这个电话就可以找我们报案，我们会协助您联系理赔人员来跟保险公司报案和沟通的；另外您也可以直接联系我，我也会协助您进行理赔的、因为我们有专门的理赔团队，一对一理赔专员，会全程协助客户去理赔；当然您也可以直接拨打保险公司售后电话报案。', 56);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('(笑一下）您放心，我肯定是不会轻易离职的，当然如果我真的离开公司了，公司也一定有人会负责跟进的，我们的客服电话400-081-0388您也随时能找到人给您提供满意的服务，更重要的是保险合同您不是和我个人签的，是和保险公司签订的，您随时拨打保险公司服务电话，他们都会派人给您提供相应的服务。', 57);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('投保之后保险公司会有电子合同给到您，长期型的保险，像重疾寿险这些犹豫期过后都是可以申请纸质合同的，而且合同生效了，是可以关注保险公司的微信公众号关联保单的 ', 58);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('这一点您完全可以放心，以后电子保单是发展趋势，必然会取代纸质保单，而且电子保单也是有法律效力的，完全不用担心电子保单不被认可。如果您确实觉得心里不踏实，我也可以帮您申请纸质保单。', 58);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('您好，电子保单和纸质保单在法律效应上是一样的，互联网保险产品的电子保单都会发送到您邮箱，您可以从邮箱里下载下来保存，或者打印出来都可以，通过我们平台投保了长期重疾或定寿的，我们也可以代为申请纸质保单并邮寄（部分保险公司要求本人申请）。', 58);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('当然可以的。您后续如果在产品上还有问题，可以随时联系我的。非常欢迎您多来咨询，身边有朋友要咨询保险，您也可以直接推荐我。（可以大笑一下）', 59);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('       为了您的保单更好的管理，完成重疾险和定寿的投保，我可以去帮您申请一个价值258元的保单管理皮夹，您可以把您家庭的纸质保单全都放在保单皮夹里，放在一个咱们家人都知道的地方，这样咱们家庭都有哪些保险，每个家庭成员都一清二楚了，万一今后有需要理赔的时候，咱们就不用花时间和精力去确定家里人有买过哪些保险，保单在什么地方，真正做到轻松理赔。
+       当然如果您不喜欢保存纸质的保单，想通过电子保单的形式保存或者对于自己的保单做一个备份，我们再赠送您一个保单管理U盘，您可以把您家庭的电子保单都保存到U盘里，以备不时之需。', 60);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('       投保成功之后保险公司也会有电子合同发到您邮箱，长期型的保险也有纸质合同，关注保险公司的微信公众号也可以关联保单 ，投保之后我们是有长期免费的售后服务给到您，工作日拨打我们的客服热线：400-081-0388 ，包括还有理赔协助服务，发生风险的时候 我们是有专门的理赔团队，安排一对一理赔专员，全程协助客户去理赔的', 61);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('您好，通过我们投保的产品，可以享受以下服务：
+1、免费客服热线：400-081-0388，如果您对产品或服务有任何疑问，可以随时联系。
+2、专人协助理赔：安排一对一理赔专员，全程协助理赔。
+3、赠送保单管理皮夹。如果您投保了成人重疾险或是定寿，我们会赠送保单管理皮夹，这个皮夹包含保单管理U盘、理赔手册以及保险公司服务电话等。
+4、代为申请纸质保单并邮寄。购买了长期重疾或定寿的，我们可以代为申请纸质保单并邮寄（部分保险公司要求本人申请）                                                                                                                                                                                      ', 61);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('非常感谢您的支持和信任。其实每一个家庭都需要保险的保障，但是很多家庭都不懂得如何正确购买保险并且运用它，而这也正是我们的初衷，如果您对于我们的服务满意的话，也请介绍给身边的亲戚朋友。', 62);
+INSERT INTO `verbal_trick_template_content` (content, title_id) values ('当然考虑是很正常的，不过考虑完了以后也迟早是要给家人规划的。那这些方案本身本身就是给您和家人量身定制的，不管从保障内容还是性价比来讲都是最优，如果您觉得还不错的话可以直接先投，因为您现在参加的话，我们还会帮您申请价值258的保单管理皮夹，可以将您的家庭纸质保单统一管理，这样将来整理保单也会比较方便。另外我们还会再赠送您一个U盘，用来保管您及家人的电子保单，这样的话就有双重保障了。', 63);
