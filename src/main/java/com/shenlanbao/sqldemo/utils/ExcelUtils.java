@@ -16,7 +16,7 @@ public class ExcelUtils {
         String title = "INSERT INTO `verbal_trick_template_title` (title, tab_id) values ('','');";
         List<String> sqls = new ArrayList<>();
         for (int sheetIndex = 1; sheetIndex < 6; sheetIndex++) {
-            ArrayList<Map<String, String>> result = excelUtils.readExcelToObj("C:\\Users\\slb\\Downloads\\异议处理0220.xlsx", sheetIndex);
+            ArrayList<Map<String, String>> result = excelUtils.readExcelToObj("C:\\Users\\slb\\Desktop\\异议处理（更正）(20200316).xlsx", sheetIndex);
             for (Map<String, String> map : result) {
 //                System.out.println(map);
             }

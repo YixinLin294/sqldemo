@@ -1,13 +1,19 @@
 package com.shenlanbao.sqldemo.controller;
 
+import com.shenlanbao.sqldemo.model.ActiveData;
 import com.shenlanbao.sqldemo.model.Template;
 import com.shenlanbao.sqldemo.service.TemplateService;
 import com.shenlanbao.sqldemo.service.TestService;
+import com.shenlanbao.sqldemo.utils.EasyExcelUtils;
 import com.shenlanbao.sqldemo.utils.ExcelUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.*;
 
 @RestController
@@ -34,6 +40,9 @@ public class TestController {
         return testService.insert();
     }
 
+    /**
+     * 话术
+     */
     @GetMapping("template")
     public void template() {
         ExcelUtils excelUtils = new ExcelUtils();
@@ -42,7 +51,7 @@ public class TestController {
         String contentSql2 = "INSERT INTO `verbal_trick_template_content` (content, title_id) values ('',);";
         List<String> sqls = new ArrayList<>();
         for (int sheetIndex = 1; sheetIndex < 6; sheetIndex++) {
-            ArrayList<Map<String, String>> result = excelUtils.readExcelToObj("C:\\Users\\slb\\Downloads\\异议处理0220.xlsx", sheetIndex);
+            ArrayList<Map<String, String>> result = excelUtils.readExcelToObj("C:\\Users\\slb\\Desktop\\异议处理（更正）(20200316).xlsx", sheetIndex);
             // 插入内容
             for (Map<String, String> map : result) {
                 String question = map.get("question");
@@ -75,5 +84,50 @@ public class TestController {
         for (String sql : sqls) {
             System.out.println(sql);
         }
+    }
+
+    @PostMapping("/data_abstraction")
+    public void dataAbstraction(@RequestParam MultipartFile file) throws IOException {
+        List<ActiveData> activeData = new ArrayList<>();
+        activeData = EasyExcelUtils.readExcel(file, new ActiveData());
+        StringBuilder sb = new StringBuilder();
+        sb.append("SELECT\n" +
+                "\tp.insurant AS '姓名',\n" +
+                "\tp.insurant_phone AS '联系电话',\n" +
+                "\ts.payment_time AS '支付时间',\n" +
+                "CASE\n" +
+                "\t\t\n" +
+                "\t\tWHEN DATE_ADD( p.start_date, INTERVAL p.period_hesitation DAY ) <= NOW( ) THEN '是' WHEN DATE_ADD( p.start_date, INTERVAL p.period_hesitation DAY ) > NOW( ) THEN\n" +
+                "\t\t'否' \n" +
+                "\tEND AS '是否过犹豫期',\n" +
+                "CASE\n" +
+                "\t\t\n" +
+                "\t\tWHEN p.long_insurance = 1 THEN\n" +
+                "\t\t'长险' \n" +
+                "\t\tWHEN p.long_insurance = 0 THEN\n" +
+                "\t\t'短险' \n" +
+                "\tEND AS '是否为长险' \n" +
+                "FROM\n" +
+                "\tpolicy AS p\n" +
+                "\tLEFT JOIN insurance AS s ON s.id = p.insurance_id \n" +
+                "WHERE\n" +
+                "\tp.long_insurance = 1 \n" +
+                "\tAND s.effectiveness = 'EFFECTIVE' \n" +
+                "\tAND p.insurant_phone IN (");
+        for (ActiveData activeDatum : activeData) {
+            sb.append("\"");
+            sb.append(activeDatum.getPhone());
+            sb.append("\",");
+        }
+        sb.delete(sb.length()-1, sb.length());
+        sb.append(") order by field(p.insurant_phone,");
+        for (ActiveData activeDatum : activeData) {
+            sb.append("\"");
+            sb.append(activeDatum.getPhone());
+            sb.append("\",");
+        }
+        sb.delete(sb.length()-1, sb.length());
+        sb.append(");");
+        System.out.println(sb.toString());
     }
 }
