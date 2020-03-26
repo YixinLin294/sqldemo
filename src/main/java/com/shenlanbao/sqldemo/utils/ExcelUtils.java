@@ -4,6 +4,7 @@ import com.shenlanbao.sqldemo.model.Template;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
@@ -56,6 +57,26 @@ public class ExcelUtils {
         }
         return result;
     }
+
+    /**
+     * 读取excel数据
+     * @param file
+     */
+    public ArrayList<Map<String, String>> readExcelToObj(MultipartFile file, Integer sheetIndex) {
+
+        Workbook wb = null;
+        ArrayList<Map<String, String>> result = null;
+        try {
+            wb = WorkbookFactory.create(file.getInputStream());
+            result = readExcel(wb, sheetIndex, 1, 0);
+        } catch (InvalidFormatException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
 
     /**
      * 读取excel文件

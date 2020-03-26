@@ -43,15 +43,15 @@ public class TestController {
     /**
      * 话术
      */
-    @GetMapping("template")
-    public void template() {
+    @PostMapping("template")
+    public void template(@RequestParam MultipartFile file) {
         ExcelUtils excelUtils = new ExcelUtils();
         List<Template> templateList = new ArrayList<>();
         String contentSql1 = "INSERT INTO `verbal_trick_template_content` (subtitle, content, title_id) values ('','',);";
         String contentSql2 = "INSERT INTO `verbal_trick_template_content` (content, title_id) values ('',);";
         List<String> sqls = new ArrayList<>();
         for (int sheetIndex = 1; sheetIndex < 6; sheetIndex++) {
-            ArrayList<Map<String, String>> result = excelUtils.readExcelToObj("C:\\Users\\slb\\Desktop\\异议处理（更正）(20200316).xlsx", sheetIndex);
+            ArrayList<Map<String, String>> result = excelUtils.readExcelToObj(file, sheetIndex);
             // 插入内容
             for (Map<String, String> map : result) {
                 String question = map.get("question");
@@ -92,8 +92,16 @@ public class TestController {
         activeData = EasyExcelUtils.readExcel(file, new ActiveData());
         StringBuilder sb = new StringBuilder();
         sb.append("SELECT\n" +
-                "\tp.insurant AS '姓名',\n" +
-                "\tp.insurant_phone AS '联系电话',\n" +
+                "case ");
+        for (ActiveData activeDatum : activeData) {
+            sb.append("when s.applicant_phone like '");
+            sb.append(activeDatum.getPhone());
+            sb.append("' then '");
+            sb.append(activeDatum.getName());
+            sb.append("' \n");
+        }
+        sb.append("end as '姓名',");
+        sb.append("\ts.applicant_phone AS '联系电话',\n" +
                 "\ts.payment_time AS '支付时间',\n" +
                 "CASE\n" +
                 "\t\t\n" +
@@ -113,20 +121,20 @@ public class TestController {
                 "WHERE\n" +
                 "\tp.long_insurance = 1 \n" +
                 "\tAND s.effectiveness = 'EFFECTIVE' \n" +
-                "\tAND p.insurant_phone IN (");
+                "\tAND s.applicant_phone IN (");
         for (ActiveData activeDatum : activeData) {
-            sb.append("\"");
+            sb.append("'");
             sb.append(activeDatum.getPhone());
-            sb.append("\",");
+            sb.append("', \n");
         }
-        sb.delete(sb.length()-1, sb.length());
-        sb.append(") order by field(p.insurant_phone,");
+        sb.delete(sb.length()-3, sb.length());
+        sb.append("\n) order by field(s.applicant_phone,");
         for (ActiveData activeDatum : activeData) {
-            sb.append("\"");
+            sb.append("'");
             sb.append(activeDatum.getPhone());
-            sb.append("\",");
+            sb.append("', \n");
         }
-        sb.delete(sb.length()-1, sb.length());
+        sb.delete(sb.length()-3, sb.length());
         sb.append(");");
         System.out.println(sb.toString());
     }
