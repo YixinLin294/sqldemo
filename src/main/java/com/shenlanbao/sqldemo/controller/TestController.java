@@ -1,6 +1,8 @@
 package com.shenlanbao.sqldemo.controller;
 
+import com.alibaba.excel.EasyExcel;
 import com.shenlanbao.sqldemo.model.ActiveData;
+import com.shenlanbao.sqldemo.model.ResultData;
 import com.shenlanbao.sqldemo.model.Template;
 import com.shenlanbao.sqldemo.service.TemplateService;
 import com.shenlanbao.sqldemo.service.TestService;
@@ -137,5 +139,22 @@ public class TestController {
         sb.delete(sb.length()-3, sb.length());
         sb.append(");");
         System.out.println(sb.toString());
+    }
+
+    @PostMapping("/excel_match")
+    public void excelMatch(@RequestParam MultipartFile file1, @RequestParam MultipartFile file2) throws IOException {
+        List<ResultData> resultData;
+        List<ActiveData> activeData;
+        resultData =  EasyExcelUtils.readExcel(file1, new ResultData());
+        activeData = EasyExcelUtils.readExcel(file2, new ActiveData());
+        HashMap<String, String> hashMap = new HashMap<>();
+        for (ActiveData activeDatum : activeData) {
+            hashMap.put(activeDatum.getPhone(), activeDatum.getName());
+        }
+        for (ResultData resultDatum : resultData) {
+            resultDatum.setName(hashMap.get(resultDatum.getPhone()));
+        }
+        String fileName = file1.getOriginalFilename();
+        EasyExcel.write(fileName, ResultData.class).sheet().doWrite(resultData);
     }
 }
