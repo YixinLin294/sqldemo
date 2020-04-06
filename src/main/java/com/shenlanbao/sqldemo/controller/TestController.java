@@ -4,6 +4,8 @@ import com.alibaba.excel.EasyExcel;
 import com.shenlanbao.sqldemo.model.ActiveData;
 import com.shenlanbao.sqldemo.model.ResultData;
 import com.shenlanbao.sqldemo.model.Template;
+import com.shenlanbao.sqldemo.model.db.OrderDB;
+import com.shenlanbao.sqldemo.service.OrderService;
 import com.shenlanbao.sqldemo.service.TemplateService;
 import com.shenlanbao.sqldemo.service.TestService;
 import com.shenlanbao.sqldemo.utils.EasyExcelUtils;
@@ -26,6 +28,9 @@ public class TestController {
 
     @Autowired
     private TemplateService templateService;
+
+    @Autowired
+    private OrderService orderService;
 
     @GetMapping("/hello")
     public String hello() {
@@ -129,7 +134,9 @@ public class TestController {
             sb.append(activeDatum.getPhone());
             sb.append("', \n");
         }
-        sb.delete(sb.length()-3, sb.length());
+        if (activeData != null && activeData.size() != 0) {
+            sb.delete(sb.length() - 3, sb.length());
+        }
         sb.append("\n) order by field(s.applicant_phone,");
         for (ActiveData activeDatum : activeData) {
             sb.append("'");
@@ -156,5 +163,30 @@ public class TestController {
         }
         String fileName = file1.getOriginalFilename();
         EasyExcel.write(fileName, ResultData.class).sheet().doWrite(resultData);
+    }
+
+    @GetMapping("/mongo_find")
+    public void mongoFind() {
+        String before = "db.questionnaire.find({\n" +
+                "        orderId: {\n" +
+                "            $in: [" ;
+        String after = "]\n" +
+                "        }\n" +
+                "    })\n" +
+                "    .sort({\n" +
+                "        _id: -1\n" +
+                "    })\n" +
+                "    .limit(100)";
+        List<OrderDB> orderDBList = orderService.findUnfinishedQuestionnaireOrder();
+        StringBuilder sb = new StringBuilder();
+        sb.append(before);
+        for (OrderDB orderDB : orderDBList) {
+            sb.append(orderDB.getId()).append(", ");
+        }
+        if (orderDBList != null && orderDBList.size() != 0) {
+            sb.delete(sb.length()-2, sb.length());
+        }
+        sb.append(after);
+        System.out.println(sb.toString());
     }
 }

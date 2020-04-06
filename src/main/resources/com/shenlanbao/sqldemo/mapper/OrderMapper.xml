@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"><mapper namespace="com.shenlanbao.sqldemo.mapper.OrderMapper">
+
+    <select id="findUnfinishedQuestionnaireOrder" resultType="com.shenlanbao.sqldemo.model.db.OrderDB">
+        SELECT o.*
+        FROM `order` AS o
+        LEFT JOIN `customer` AS c ON o.`customer_id` = c.id
+        WHERE
+            c.phone IS NOT NULL
+            AND o.`status` = 'QUESTIONNAIRE'
+    </select>
+
+</mapper>
