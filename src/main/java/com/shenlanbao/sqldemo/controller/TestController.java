@@ -5,6 +5,7 @@ import com.shenlanbao.sqldemo.model.ActiveData;
 import com.shenlanbao.sqldemo.model.ResultData;
 import com.shenlanbao.sqldemo.model.Template;
 import com.shenlanbao.sqldemo.model.db.OrderDB;
+import com.shenlanbao.sqldemo.model.dto.OrderAndCustomerDTO;
 import com.shenlanbao.sqldemo.service.OrderService;
 import com.shenlanbao.sqldemo.service.TemplateService;
 import com.shenlanbao.sqldemo.service.TestService;
@@ -184,6 +185,25 @@ public class TestController {
         }
         if (orderDBList != null && orderDBList.size() != 0) {
             sb.delete(sb.length()-2, sb.length());
+        }
+        sb.append(after);
+        System.out.println(sb.toString());
+    }
+
+    @PostMapping("/excel_upload")
+    public void excelUpload(@RequestParam MultipartFile file1) throws IOException {
+        List<OrderAndCustomerDTO> orderAndCustomerDTOS = EasyExcelUtils.readExcel(file1, new OrderAndCustomerDTO());
+        String before = "select * from `order` as o left join `customer` as c on c.id = o.`customer_id` where c.`phone` in (";
+        String after = ");";
+        StringBuilder sb = new StringBuilder();
+        sb.append(before);
+        for (OrderAndCustomerDTO orderAndCustomerDTO : orderAndCustomerDTOS) {
+            sb.append("'");
+            sb.append(orderAndCustomerDTO.getPhone());
+            sb.append("',");
+        }
+        if (orderAndCustomerDTOS != null && orderAndCustomerDTOS.size() > 0) {
+            sb.delete(sb.length() - 1, sb.length());
         }
         sb.append(after);
         System.out.println(sb.toString());
