@@ -2,6 +2,7 @@ package com.shenlanbao.sqldemo.controller;
 
 import com.alibaba.excel.EasyExcel;
 import com.shenlanbao.sqldemo.model.ActiveData;
+import com.shenlanbao.sqldemo.model.Base64File;
 import com.shenlanbao.sqldemo.model.ResultData;
 import com.shenlanbao.sqldemo.model.Template;
 import com.shenlanbao.sqldemo.model.db.OrderDB;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 @RestController
@@ -207,5 +209,38 @@ public class TestController {
         }
         sb.append(after);
         System.out.println(sb.toString());
+    }
+
+    @PostMapping("/excel_in")
+    public void jointIn(@RequestParam MultipartFile file1) throws IOException {
+        List<OrderAndCustomerDTO> orderAndCustomerDTOS = EasyExcelUtils.readExcel(file1, new OrderAndCustomerDTO());
+        String before = "select * from ( select p.product_name, pc.renewal_rule, p.end_date, s.partner_id as supplier, s.insure_num, ri.offline_flag, ri.latest_renewal_date, ri.origin_url, ri.renewal_url from insurance as s left join policy as p on p.insurance_id = s.id left join product_coverage as pc on p.product_name = pc.product_name left join renewal_info as ri on ri.insure_num = s.insure_num WHERE s.`effectiveness` = 'EFFECTIVE' AND p.`coverage_desc` IN ('医疗险','防癌医疗险','意外险') AND p.`long_insurance` IS false and s.`applicant_phone` in (";
+        String after = ") as t1 order by end_date desc;";
+        StringBuilder sb = new StringBuilder();
+        sb.append(before);
+        for (OrderAndCustomerDTO orderAndCustomerDTO : orderAndCustomerDTOS) {
+            sb.append("'");
+            sb.append(orderAndCustomerDTO.getPhone());
+            sb.append("',");
+        }
+        if (orderAndCustomerDTOS != null && orderAndCustomerDTOS.size() > 0) {
+            sb.delete(sb.length() - 1, sb.length());
+        }
+        sb.append(after);
+        System.out.println(sb.toString());
+    }
+
+    @PostMapping("/encode_base64")
+    public Base64File encodeBase64(@RequestParam MultipartFile file) {
+        byte[] data = null;
+        try {
+            data = file.getBytes();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Base64.Encoder encoder = Base64.getEncoder();
+        Base64File base64File = new Base64File();
+        base64File.setFile(encoder.encodeToString(data));
+        return base64File;
     }
 }
