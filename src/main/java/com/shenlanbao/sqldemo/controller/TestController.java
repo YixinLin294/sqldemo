@@ -215,7 +215,7 @@ public class TestController {
     public void jointIn(@RequestParam MultipartFile file1) throws IOException {
         List<OrderAndCustomerDTO> orderAndCustomerDTOS = EasyExcelUtils.readExcel(file1, new OrderAndCustomerDTO());
         String before = "select * from ( select p.product_name, pc.renewal_rule, p.end_date, s.partner_id as supplier, s.insure_num, ri.offline_flag, ri.latest_renewal_date, ri.origin_url, ri.renewal_url from insurance as s left join policy as p on p.insurance_id = s.id left join product_coverage as pc on p.product_name = pc.product_name left join renewal_info as ri on ri.insure_num = s.insure_num WHERE s.`effectiveness` = 'EFFECTIVE' AND p.`coverage_desc` IN ('医疗险','防癌医疗险','意外险') AND p.`long_insurance` IS false and s.`applicant_phone` in (";
-        String after = ") as t1 order by end_date desc;";
+        String after = ")) as t1 order by end_date desc;";
         StringBuilder sb = new StringBuilder();
         sb.append(before);
         for (OrderAndCustomerDTO orderAndCustomerDTO : orderAndCustomerDTOS) {
