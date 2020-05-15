@@ -11,6 +11,11 @@ public class MyTest {
         Subject subject = (Subject) Proxy.newProxyInstance(clazz.getClassLoader(), clazz.getInterfaces(), proxySubject);
 
         subject.request();
+        System.out.println("--------");
+        System.out.println(subject.toString());
+        System.out.println("---------");
         System.out.println(subject.getClass());
+        System.out.println(subject.getClass().getName());
+        System.out.println(sub.hashCode());
     }
 }
