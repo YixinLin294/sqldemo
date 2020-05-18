@@ -1,6 +1,6 @@
-package com.shenlanbao.sqldemo.controller;
+/*
+package com.shenlanbao.sqldemo.noweb;
 
-import java.net.URLClassLoader;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,7 +15,7 @@ public class Test07 {
         ClassLoader parent1 = parent.getParent();
         System.out.println(parent1);
         System.out.println("------------");
-        ClassLoader classLoader = Class.forName("com.shenlanbao.sqldemo.controller.Test07").getClassLoader();
+        ClassLoader classLoader = Class.forName("com.shenlanbao.sqldemo.noweb.Test07").getClassLoader();
         System.out.println(classLoader);
         classLoader = Class.forName("java.lang.Object").getClassLoader();
         System.out.println(classLoader);
@@ -50,3 +50,4 @@ public class Test07 {
         System.out.println(ClassLoader.getPlatformClassLoader());
     }
 }
+*/

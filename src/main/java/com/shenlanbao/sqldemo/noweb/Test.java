@@ -1,4 +1,4 @@
-package com.shenlanbao.sqldemo.controller;
+package com.shenlanbao.sqldemo.noweb;
 
 public class Test {
     private int a = 1;
