@@ -6,4 +6,6 @@ public interface TestService {
     Integer insertBatch();
 
     Integer insert();
+
+    void testAsync();
 }

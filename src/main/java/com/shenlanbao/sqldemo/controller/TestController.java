@@ -14,10 +14,7 @@ import com.shenlanbao.sqldemo.utils.AESUtil;
 import com.shenlanbao.sqldemo.utils.EasyExcelUtils;
 import com.shenlanbao.sqldemo.utils.ExcelUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.InputStream;
@@ -244,5 +241,25 @@ public class TestController {
         base64File.setFile(encoder.encodeToString(data));
         return base64File;
     }
+    @PostMapping("/aes_encrypt")
+    public String aesEncrypt(@RequestBody String original) {
+        try {
+            String encrypt = AESUtil.Encrypt(original);
+            return encrypt;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
+    @PostMapping("/aes_decrypt")
+    public String aesDecrypt(@RequestBody String encrypt) {
+        try {
+            String original = AESUtil.Decrypt(encrypt);
+            return original;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
