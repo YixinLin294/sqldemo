@@ -19,6 +19,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Enumeration;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.Enumeration;
+
 //@EnableScheduling
 @SpringBootApplication
 @MapperScan(value = "com.shenlanbao.sqldemo.mapper")
@@ -26,22 +30,20 @@ import java.util.Enumeration;
 @EnableWebSocket
 public class SqldemoApplication implements WebSocketConfigurer {
 
-    public static void main(String[] args) throws IOException {
-        ClassLoader systemClassLoader = ClassLoader.getSystemClassLoader();
-        Enumeration<URL> resources =
-                systemClassLoader.getResources("shenlanbao/sqldemo" +
-                        "");
-        while (resources.hasMoreElements()) {
-            URL url = resources.nextElement();
-            System.out.println(url.toString());
-        }
-
-        final ConfigurableApplicationContext run = SpringApplication.run(SqldemoApplication.class, args);
-    }
-
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         registry.addHandler(echoWebSocketHandler(), "/echo").withSockJS();
+    }
+
+    public static void main(String[] args) throws IOException {
+        ClassLoader classLoader = SqldemoApplication.class.getClassLoader();
+        System.out.println(classLoader);
+        Enumeration<URL> test = classLoader.getResources("META-INF/spring.factories");
+        while (test.hasMoreElements()) {
+            URL url = test.nextElement();
+            System.out.println(url.toString());
+        }
+        SpringApplication.run(SqldemoApplication.class, args);
     }
 
     @Bean

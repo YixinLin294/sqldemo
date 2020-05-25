@@ -267,4 +267,9 @@ public class TestController {
             return null;
         }
     }
+
+    @GetMapping("test")
+    public void test(@RequestParam String test) {
+        System.out.println("test");
+    }
 }
