@@ -16,9 +16,13 @@ import com.shenlanbao.sqldemo.utils.ExcelUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.print.attribute.standard.Media;
+import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
+import java.util.List;
 
 @RestController
 public class TestController {
@@ -32,9 +36,10 @@ public class TestController {
     @Autowired
     private OrderService orderService;
 
-    @GetMapping("/hello")
+    @GetMapping(value = "/hello")
     public String hello() {
-        return "hello";
+        System.out.println("热部署");
+        return "hello_world_test";
     }
 
     @GetMapping("/insert_batch")
