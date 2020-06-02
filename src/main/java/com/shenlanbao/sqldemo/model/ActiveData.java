@@ -1,9 +1,13 @@
 package com.shenlanbao.sqldemo.model;
 
 import com.alibaba.excel.annotation.ExcelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ActiveData {
 
     @ExcelProperty("序号")

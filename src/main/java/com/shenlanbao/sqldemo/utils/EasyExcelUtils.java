@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +24,15 @@ public class EasyExcelUtils {
     public static <T> List<T> readExcel(MultipartFile file, T data) throws IOException {
         List<T> dataList = EasyExcel.read(file.getInputStream(), data.getClass(), new DataListener<T>()).sheet().doReadSync();
         return dataList;
+    }
+
+    public static <T> void writeExcel(String path, List<T> data) {
+        Type type = data.getClass().getGenericSuperclass();
+        if (type instanceof ParameterizedType) {
+            ParameterizedType pt = (ParameterizedType) type;
+            Class<T> clazz = (Class<T>) pt.getActualTypeArguments()[0];
+            EasyExcel.write(path, clazz).sheet().doWrite(data);
+        }
     }
 }
 

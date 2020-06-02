@@ -341,4 +341,13 @@ public class TestController {
         }
         return response;
     }
+
+    @GetMapping("/excel_util_test")
+    public void excelUtil() {
+        List<ActiveData> list = new ArrayList<>();
+        list.add(new ActiveData(1,"11", "111"));
+        list.add(new ActiveData(1,"11", "111"));
+        list.add(new ActiveData(2,"22", "222"));
+        EasyExcelUtils.writeExcel("test.xlsx", list);
+    }
 }
