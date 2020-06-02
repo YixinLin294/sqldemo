@@ -1,6 +1,7 @@
 package com.shenlanbao.sqldemo.controller;
 
 import com.alibaba.excel.EasyExcel;
+import com.alibaba.fastjson.JSONObject;
 import com.shenlanbao.sqldemo.model.ActiveData;
 import com.shenlanbao.sqldemo.model.Base64File;
 import com.shenlanbao.sqldemo.model.ResultData;
@@ -14,13 +15,20 @@ import com.shenlanbao.sqldemo.utils.AESUtil;
 import com.shenlanbao.sqldemo.utils.EasyExcelUtils;
 import com.shenlanbao.sqldemo.utils.ExcelUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.print.attribute.standard.Media;
 import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.*;
 import java.util.List;
 
@@ -35,6 +43,8 @@ public class TestController {
 
     @Autowired
     private OrderService orderService;
+
+    RestTemplate restTemplate = new RestTemplate();
 
     @GetMapping(value = "/hello")
     public String hello() {
@@ -268,8 +278,67 @@ public class TestController {
         }
     }
 
-    @GetMapping("test")
-    public void test(@RequestParam String test) {
-        System.out.println("test");
+
+    @PostMapping("/test")
+    public Map test(@RequestBody Integer max) throws URISyntaxException {
+        String s = "test";
+        List<String> strings = new ArrayList<>();
+        Map<String, Object> map = new HashMap<>();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < max; i++) {
+//            sb.append(s).append(s);
+//            strings.add(s);
+            map.put(s + i, s);
+        }
+        return map;
+/*        ResponseEntity<String> stringResponseEntity = restTemplate.postForEntity(new URI("http://localhost:9999/test2"), sb.toString(), String.class);
+        String body = stringResponseEntity.getBody();
+        System.out.println(body);*/
+/*        restTemplate.postForEntity(new URI("http://localhost:9999/test3"), strings, String.class);*/
+
+    }
+
+    @PostMapping("/test2")
+    public String test2(@RequestBody String test) {
+        System.out.println(test);
+        return "success";
+    }
+
+    @PostMapping("/test3")
+    public String test3(@RequestBody List<String> strings) {
+        System.out.println(strings.size());
+        return "success2";
+    }
+
+    @PostMapping("/test4")
+    public String test4(@RequestBody Map<String, String> stringMap) {
+        System.out.println(stringMap.size());
+        return "success2";
+    }
+
+    @GetMapping("/test5")
+    public String test5(@RequestParam("max") Integer max) {
+        HttpResponse<String> response;
+        response = this.getResponseResult( max, "/test");
+        System.out.println(response.body());
+        return JSONObject.toJSONString(response.body());
+    }
+
+    private HttpResponse<String> getResponseResult(Integer max, String uri) {
+        String json = JSONObject.toJSONString(max);
+
+        HttpClient client = HttpClient.newBuilder().build();
+
+        String url = "http://localhost:8080" + uri;
+
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).header("Content-Type", "application/json")
+                .POST(HttpRequest.BodyPublishers.ofString(json)).build();
+        HttpResponse<String> response = null;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        return response;
     }
 }
