@@ -27,12 +27,12 @@ public class EasyExcelUtils {
     }
 
     public static <T> void writeExcel(String path, List<T> data) {
-        Type type = data.getClass().getGenericSuperclass();
+/*        Type type = data.getClass().getGenericSuperclass();
         if (type instanceof ParameterizedType) {
             ParameterizedType pt = (ParameterizedType) type;
             Class<T> clazz = (Class<T>) pt.getActualTypeArguments()[0];
             EasyExcel.write(path, clazz).sheet().doWrite(data);
-        }
+        }*/
     }
 }
 
