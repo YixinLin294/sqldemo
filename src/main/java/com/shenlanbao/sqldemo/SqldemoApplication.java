@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Enumeration;
 
-//@EnableScheduling
+@EnableScheduling
 @SpringBootApplication
 @MapperScan(value = "com.shenlanbao.sqldemo.mapper")
 @EnableAsync
