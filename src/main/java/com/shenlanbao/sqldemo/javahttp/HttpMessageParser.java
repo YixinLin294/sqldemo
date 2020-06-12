@@ -79,7 +79,7 @@ public class HttpMessageParser {
 
     private static void buildResponseHeader(Response response, StringBuilder stringBuilder) {
         for (Map.Entry<String, String> entry : response.getHeaders().entrySet()) {
-            stringBuilder.append(entry.getKey()).append(entry.getValue()).append("\n");
+            stringBuilder.append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
         }
         stringBuilder.append("\n");
     }
