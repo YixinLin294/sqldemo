@@ -1,5 +1,6 @@
 package com.shenlanbao.sqldemo.controller;
 
+import com.shenlanbao.sqldemo.mq.ProviderService;
 import com.shenlanbao.sqldemo.service.TestService;
 import com.shenlanbao.sqldemo.utils.AESUtil;
 import lombok.AllArgsConstructor;
@@ -17,5 +18,11 @@ public class Test2Controller {
     public void testAsync() {
         testService.testAsync();
         System.out.println("afterAsync");
+    }
+
+    @GetMapping("/rabbitmq")
+    public void rabbitmqTest(@RequestParam String msg) {
+        ProviderService providerService = new ProviderService();
+        providerService.sendMsgForHelloWorldQueue(msg);
     }
 }
