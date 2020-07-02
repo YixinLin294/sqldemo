@@ -1,3 +1,4 @@
+/*
 package com.shenlanbao.sqldemo.mq;
 
 import org.springframework.amqp.core.AmqpTemplate;
@@ -35,3 +36,4 @@ public class ProviderService {
         amqpTemplate.convertAndSend(RabbitmqConfig.TOPIC_EXCHANGE, wildcard, msg);
     }
 }
+*/

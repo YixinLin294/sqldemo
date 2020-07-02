@@ -1,3 +1,4 @@
+/*
 package com.shenlanbao.sqldemo.mq;
 
 import com.rabbitmq.client.AMQP;
@@ -35,3 +36,4 @@ public class RabbitMqProducer {
         }
     }
 }
+*/

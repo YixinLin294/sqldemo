@@ -2,10 +2,7 @@ package com.shenlanbao.sqldemo.controller;
 
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.fastjson.JSONObject;
-import com.shenlanbao.sqldemo.model.ActiveData;
-import com.shenlanbao.sqldemo.model.Base64File;
-import com.shenlanbao.sqldemo.model.ResultData;
-import com.shenlanbao.sqldemo.model.Template;
+import com.shenlanbao.sqldemo.model.*;
 import com.shenlanbao.sqldemo.model.db.OrderDB;
 import com.shenlanbao.sqldemo.model.dto.OrderAndCustomerDTO;
 import com.shenlanbao.sqldemo.service.OrderService;
@@ -349,5 +346,59 @@ public class TestController {
         list.add(new ActiveData(1,"11", "111"));
         list.add(new ActiveData(2,"22", "222"));
         EasyExcelUtils.writeExcel("test.xlsx", list);
+    }
+
+    @PostMapping("/excel_single_product")
+    public void excelSingleProduct(@RequestBody MultipartFile file) throws IOException {
+        List<SingleProductData> singleProductDataList = EasyExcelUtils.readExcel(file, new SingleProductData());
+        HashMap<String, Integer> consultantIdMap = new HashMap<>();
+        consultantIdMap.put("林新",1060    );
+        consultantIdMap.put("王淑梅",1061  );
+        consultantIdMap.put("任一平",1062  );
+        consultantIdMap.put("蒲瑜",1063    );
+        consultantIdMap.put("卢亭秀",1064  );
+        consultantIdMap.put("林海花",1065  );
+        consultantIdMap.put("陈霞",1066    );
+        consultantIdMap.put("谢春华",1067  );
+        consultantIdMap.put("罗喻枫",1068  );
+        consultantIdMap.put("陈香香",1095  );
+        consultantIdMap.put("史方圆",1096  );
+        consultantIdMap.put("邱宝欣",1102  );
+        consultantIdMap.put("熊国强",1103  );
+        consultantIdMap.put("李东",1147    );
+        consultantIdMap.put("蔡立儿",1180  );
+        for (SingleProductData singleProductData : singleProductDataList) {
+            String consultantName = singleProductData.getConsultantName();
+            Integer consultantId = consultantIdMap.get(consultantName);
+            singleProductData.setConsultantId(consultantId);
+            StringBuilder sb = new StringBuilder();
+            sb.append("update insurance set group_id = ");
+            sb.append(119);
+            sb.append(" where insure_num = ");
+            sb.append("\"");
+            sb.append(singleProductData.getInsureNum()).append("\";");
+            System.out.println(sb.toString());
+        }
+
+        for (SingleProductData singleProductData : singleProductDataList) {
+            String consultantName = singleProductData.getConsultantName();
+            Integer consultantId = consultantIdMap.get(consultantName);
+            singleProductData.setConsultantId(consultantId);
+            StringBuilder sb = new StringBuilder();
+            sb.append("update insurance set consultant_id = ");
+            sb.append(singleProductData.getConsultantId());
+            sb.append(" where insure_num = ");
+            sb.append("\"");
+            sb.append(singleProductData.getInsureNum()).append("\";");
+            System.out.println(sb.toString());
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append("select * from insurance where insure_num in (");
+        for (SingleProductData singleProductData : singleProductDataList) {
+            sb.append("\"").append(singleProductData.getInsureNum()).append("\", \n");
+        }
+        sb.delete(sb.length()-3, sb.length());
+        sb.append(");");
+        System.out.println(sb.toString());
     }
 }

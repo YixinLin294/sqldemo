@@ -1,3 +1,4 @@
+/*
 package com.shenlanbao.sqldemo.controller;
 
 import com.shenlanbao.sqldemo.mq.ProviderService;
@@ -26,3 +27,4 @@ public class Test2Controller {
         providerService.sendMsgForHelloWorldQueue(msg);
     }
 }
+*/

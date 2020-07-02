@@ -1,3 +1,4 @@
+/*
 package com.shenlanbao.sqldemo.mq;
 
 
@@ -22,3 +23,4 @@ public class ConsumerHelloWorld {
         channel.basicAck(deliveryTag, false);
     }
 }
+*/

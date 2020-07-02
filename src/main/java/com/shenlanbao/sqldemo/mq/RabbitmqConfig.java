@@ -1,3 +1,4 @@
+/*
 package com.shenlanbao.sqldemo.mq;
 
 import org.springframework.amqp.core.*;
@@ -122,3 +123,4 @@ public class RabbitmqConfig {
         return BindingBuilder.bind(topicQueueTwo).to(topicExchange).with(TOPICS_MORE);
     }
 }
+*/
