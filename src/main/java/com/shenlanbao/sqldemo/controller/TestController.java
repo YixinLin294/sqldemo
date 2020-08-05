@@ -401,4 +401,9 @@ public class TestController {
         sb.append(");");
         System.out.println(sb.toString());
     }
+
+    @GetMapping("/rename/bilibili")
+    public void renameBilibili(@RequestParam String path) {
+        testService.renameBilibili(path);
+    }
 }

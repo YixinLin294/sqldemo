@@ -8,4 +8,6 @@ public interface TestService {
     Integer insert();
 
     void testAsync();
+
+    void renameBilibili(String path);
 }
