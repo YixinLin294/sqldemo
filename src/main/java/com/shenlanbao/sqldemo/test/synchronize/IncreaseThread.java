@@ -1,4 +1,4 @@
-package com.shenlanbao.sqldemo.test.threads;
+package com.shenlanbao.sqldemo.test.synchronize;
 
 public class IncreaseThread extends Thread{
 

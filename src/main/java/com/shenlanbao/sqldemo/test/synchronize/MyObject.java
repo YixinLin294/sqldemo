@@ -1,4 +1,4 @@
-package com.shenlanbao.sqldemo.test.threads;
+package com.shenlanbao.sqldemo.test.synchronize;
 
 public class MyObject {
     private int counter;
@@ -35,6 +35,6 @@ public class MyObject {
 
 //        notify();
         notifyAll();
-}
+    }
 
 }
