@@ -426,7 +426,7 @@ public class TestController {
         testService.renameBilibili(path);
     }
 
-    @GetMapping("pressure")
+    @GetMapping("/pressure")
     public void pressureTest() {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add("Authorization", Authorization);

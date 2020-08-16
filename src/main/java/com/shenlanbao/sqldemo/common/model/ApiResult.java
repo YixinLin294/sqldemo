@@ -18,6 +18,7 @@ public class ApiResult<T> implements Serializable {
     private int code;
     private String message;
     private T data;
+    private Integer ttl;
 
     private ApiResult() {
     }
