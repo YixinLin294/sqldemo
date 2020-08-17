@@ -8,7 +8,7 @@ import java.util.stream.IntStream;
 
 public class ConditionTest {
 
-    private String[] objects = new String[10];
+    private String[] objects = new String[1];
 
     private Integer count = 0;
 
@@ -37,10 +37,12 @@ public class ConditionTest {
             count++;
             System.out.println(Arrays.asList(objects));
             notEmpty.signalAll();
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
             lock.unlock();
+            System.out.println("unlock");
         }
     }
 
@@ -60,6 +62,7 @@ public class ConditionTest {
             count--;
             System.out.println(Arrays.asList(objects));
             notFull.signalAll();
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } finally {
@@ -70,9 +73,21 @@ public class ConditionTest {
 
     public static void main(String[] args) {
         ConditionTest conditionTest = new ConditionTest();
-        IntStream.range(0, 20).forEach(i -> new Thread(() -> conditionTest.putObject("hello")).start());
 
-        IntStream.range(0, 10).forEach(i -> new Thread(() -> conditionTest.takeObject()).start());
+/*        new Thread(() -> conditionTest.putObject("hello")).start();
+        System.out.println("thread 1");
+
+        new Thread(() -> conditionTest.putObject("hello")).start();*/
+
+        new Thread(() -> conditionTest.takeObject()).start();
+        System.out.println("thread 1");
+
+        new Thread(() -> conditionTest.putObject("hello")).start();
+
+
+//        IntStream.range(0, 20).forEach(i -> new Thread(() -> conditionTest.putObject("hello")).start());
+
+//        IntStream.range(0, 10).forEach(i -> new Thread(() -> conditionTest.takeObject()).start());
     }
 
 }
