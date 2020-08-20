@@ -82,7 +82,7 @@ public class ConditionTest {
         new Thread(() -> conditionTest.takeObject()).start();
         System.out.println("thread 1");
 
-        new Thread(() -> conditionTest.putObject("hello")).start();
+//        new Thread(() -> conditionTest.putObject("hello")).start();
 
 
 //        IntStream.range(0, 20).forEach(i -> new Thread(() -> conditionTest.putObject("hello")).start());
