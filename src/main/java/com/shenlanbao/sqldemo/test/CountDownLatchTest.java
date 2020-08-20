@@ -38,6 +38,15 @@ public class CountDownLatchTest {
             e.printStackTrace();
         }
 
+        IntStream.range(0, 10).forEach(i -> new Thread(() -> {
+            try {
+                countDownLatch.await();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("after await: " + Thread.currentThread().getName());
+        }, "await-thread-" + i).start());
+
         System.out.println("main thread continue");
     }
 }
