@@ -1,4 +1,4 @@
-package com.sehnlanbao.jdbctest;
+package com.shenlanbao.jdbctest;
 
 import com.mysql.jdbc.Driver;
 
