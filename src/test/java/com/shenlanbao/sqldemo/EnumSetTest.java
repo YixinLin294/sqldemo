@@ -1,12 +1,19 @@
 package com.shenlanbao.sqldemo;
 
 import java.util.EnumSet;
+import java.util.Iterator;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class EnumSetTest {
 
     public static void main(String[] args) {
-        EnumSet<StringEnum> stringEnums = EnumSet.noneOf(StringEnum.class);
+        EnumSet<StringEnum> stringEnums = EnumSet.allOf(StringEnum.class);
+        System.out.println(stringEnums.isEmpty());
+        Iterator<StringEnum> iterator = stringEnums.iterator();
+        while (iterator.hasNext()) {
+            StringEnum next = iterator.next();
+            System.out.println(next.toString());
+        }
     }
 }
 
