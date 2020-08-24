@@ -1,5 +1,6 @@
 package com.shenlanbao.builder;
 
+// 可伸缩构造函数模式
 public class NutritionFacts {
     private final int servingSize;
     private final int servings;

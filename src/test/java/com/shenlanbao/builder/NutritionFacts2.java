@@ -1,5 +1,6 @@
 package com.shenlanbao.builder;
 
+// JavaBean 模式
 public class NutritionFacts2 {
 
     private int servingSize = -1;

@@ -1,5 +1,6 @@
 package com.shenlanbao.builder;
 
+// 构建者模式
 public class NutritionFacts3 {
     private final int servingSize;
     private final int servings;
