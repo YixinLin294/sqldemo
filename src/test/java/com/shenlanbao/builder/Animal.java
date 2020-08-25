@@ -6,6 +6,9 @@ abstract public class Animal {
     protected Double weight;
     protected String color;
 
+    public static void method() {
+        System.out.println("static method in abstract class can be invoke");
+    }
     abstract static class Builder<T extends Builder<T>> {
         private Integer age;
         private Double height;
@@ -41,6 +44,10 @@ abstract public class Animal {
         this.height = builder.height;
         this.weight = builder.weight;
         this.color = builder.color;
+    }
+
+    public static void main(String[] args) {
+        Animal.method();
     }
 
 }
