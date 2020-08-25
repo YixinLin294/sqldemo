@@ -1,4 +1,4 @@
-package com.shenlanbao.selfboundtype;
+package com.shenlanbao.builder;
 
 abstract public class Animal {
     protected Integer age;

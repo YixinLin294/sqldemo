@@ -1,6 +1,7 @@
 package com.shenlanbao.builder;
 
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class NyPizza extends Pizza {
     public enum Size {
@@ -9,10 +10,14 @@ public class NyPizza extends Pizza {
         LAGER
     }
 
+    public Integer batchNum;
+
     private final Size size;
 
     public static class Builder extends Pizza.Builder<Builder> {
         private final Size size;
+        private Integer batchNum;
+        private static AtomicInteger batchNumStatic = new AtomicInteger();
 
         public Builder(Size size) {
             this.size = Objects.requireNonNull(size);
@@ -21,6 +26,8 @@ public class NyPizza extends Pizza {
 
         @Override
         public NyPizza build() {
+            int i = batchNumStatic.incrementAndGet();
+            this.batchNum = i;
             return new NyPizza(this);
         }
 
@@ -33,10 +40,14 @@ public class NyPizza extends Pizza {
     private NyPizza(Builder builder) {
         super(builder);
         size = builder.size;
+        batchNum = builder.batchNum;
     }
 
     public static void main(String[] args) {
-        NyPizza nyPizza = new Builder(Size.LAGER).addTopping(Topping.HAM).build();
-        System.out.println(nyPizza.toppings);
+        Builder builder = new Builder(Size.LAGER).addTopping(Topping.HAM);
+        NyPizza nyPizza1 = builder.build();
+        NyPizza nyPizza2 = builder.build();
+        System.out.println(nyPizza1.batchNum);
+        System.out.println(nyPizza2.batchNum);
     }
 }

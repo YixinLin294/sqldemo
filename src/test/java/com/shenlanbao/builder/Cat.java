@@ -1,4 +1,4 @@
-package com.shenlanbao.selfboundtype;
+package com.shenlanbao.builder;
 
 public class Cat extends Animal {
     private String master;
