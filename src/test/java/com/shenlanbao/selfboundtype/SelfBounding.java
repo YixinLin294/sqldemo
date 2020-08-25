@@ -1,6 +1,6 @@
 package com.shenlanbao.selfboundtype;
 
-class SelfBounded<T extends SelfBounded<T>> {
+class SelfBounded<T extends SelfBounded> {
     T element;
     SelfBounded<T> set(T arg) {
         element = arg;
@@ -15,6 +15,19 @@ class SelfBounded<T extends SelfBounded<T>> {
 class A extends SelfBounded<A> {}
 
 class B extends SelfBounded<A> {}
+
+class C extends SelfBounded<C> {
+    C setAndGet(C arg) {
+        set(arg);
+        return get();
+    }
+}
+
+class D {}
+
+class F extends SelfBounded {}
+
+
 
 public class SelfBounding {
 

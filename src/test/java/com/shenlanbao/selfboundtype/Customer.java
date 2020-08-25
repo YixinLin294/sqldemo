@@ -1,4 +1,4 @@
-package com.shenlanbao.builder;
+package com.shenlanbao.selfboundtype;
 
 public class Customer extends Person {
 
