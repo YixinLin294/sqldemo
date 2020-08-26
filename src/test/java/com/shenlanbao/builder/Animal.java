@@ -6,6 +6,7 @@ abstract public class Animal {
     protected Double weight;
     protected String color;
 
+
     public static void method() {
         System.out.println("static method in abstract class can be invoke");
     }

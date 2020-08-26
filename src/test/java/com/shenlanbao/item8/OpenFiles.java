@@ -16,12 +16,12 @@ public class OpenFiles {
         files.forEach(file1 -> {
             try {
                 InputStreamReader inputStreamReader = new InputStreamReader(new FileInputStream(file1));
-                OutputStreamWriter outputStreamWriter = new OutputStreamWriter(new FileOutputStream(file1));
+//                OutputStreamWriter outputStreamWriter = new OutputStreamWriter(new FileOutputStream(file1));
                 char[] cbuf = new char[64];
                 inputStreamReader.read(cbuf);
                 System.out.println(cbuf);
                 inputStreamReaders.add(inputStreamReader);
-                outputStreamWriters.add(outputStreamWriter);
+//                outputStreamWriters.add(outputStreamWriter);
             } catch (IOException e) {
                 e.printStackTrace();
             }
