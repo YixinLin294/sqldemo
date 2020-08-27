@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class PhoneNumber {
+public class PhoneNumber implements Cloneable{
     private final short areaCode, prefix, lineNum;
     private int hashCode;
 
@@ -63,7 +63,30 @@ public class PhoneNumber {
         return result;
     }
 
-    public static void main(String[] args) {
+    /**
+     * Returns the string representation of this phone number.
+     * The string consists of twelve characters whose format is
+     * "XXX-YYY-ZZZZ", where XXX is the area code, YYY is the
+     * prefix, and ZZZZ is the line number. Each of the capital
+     * letters represents a single decimal digit.
+     **
+     If any of the three parts of this phone number is too small
+     * to fill up its field, the field is padded with leading zeros.
+     * For example, if the value of the line number is 123, the last
+     * four characters of the string representation will be "0123".
+     */
+    @Override
+    public String toString() {
+        return String.format("%03d-%03d-%04d", areaCode, prefix, lineNum);
+    }
+
+    @Override
+    protected PhoneNumber clone() throws CloneNotSupportedException {
+//        return new PhoneNumber(areaCode, prefix, lineNum);
+        return (PhoneNumber) super.clone();
+    }
+
+    public static void main(String[] args) throws CloneNotSupportedException {
         Map<PhoneNumber, String> map = new HashMap<>();
         PhoneNumber key = new PhoneNumber(707, 867, 5309);
         map.put(key, "Jenny");
@@ -71,6 +94,13 @@ public class PhoneNumber {
         System.out.println(key.equals(phoneNumber));
         System.out.println(map.get(key));
         System.out.println(map.get(phoneNumber));
+
+        PhoneNumber clone = phoneNumber.clone();
+        System.out.println(clone);
+
+        System.out.println(clone != phoneNumber);
+        System.out.println(clone.getClass() == phoneNumber.getClass());
+        System.out.println(clone.equals(phoneNumber));
     }
 }
 
