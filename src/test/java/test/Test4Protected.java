@@ -12,3 +12,4 @@ public class Test4Protected extends TestForAccessor{
         Integer publicInteger = testForAccessor.publicInteger;
     }
 }
+
