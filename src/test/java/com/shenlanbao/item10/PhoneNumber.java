@@ -1,10 +1,13 @@
 package com.shenlanbao.item10;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class PhoneNumber implements Cloneable{
+import static java.util.Comparator.*;
+
+public class PhoneNumber implements Cloneable, Comparable<PhoneNumber>{
     private final short areaCode, prefix, lineNum;
     private int hashCode;
 
@@ -101,6 +104,23 @@ public class PhoneNumber implements Cloneable{
         System.out.println(clone != phoneNumber);
         System.out.println(clone.getClass() == phoneNumber.getClass());
         System.out.println(clone.equals(phoneNumber));
+    }
+
+    private static final Comparator<PhoneNumber> COMPARATOR = comparingInt((PhoneNumber pn) -> pn.areaCode)
+            .thenComparingInt(pn -> pn.prefix)
+            .thenComparingInt(pn -> pn.lineNum);
+
+    @Override
+    public int compareTo(PhoneNumber pn) {
+/*        int result = Short.compare(areaCode, pn.areaCode);
+        if (result == 0) {
+            result = Short.compare(prefix, pn.prefix);
+            if (result == 0) {
+                result = Short.compare(lineNum, pn.lineNum);
+            }
+        }
+        return result;*/
+        return COMPARATOR.compare(this, pn);
     }
 }
 

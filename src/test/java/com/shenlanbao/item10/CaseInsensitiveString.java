@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public final class CaseInsensitiveString {
+public final class CaseInsensitiveString implements Comparable<CaseInsensitiveString>{
     private final String s;
 
     public CaseInsensitiveString(String s) {
@@ -25,6 +25,8 @@ public final class CaseInsensitiveString {
         return o instanceof CaseInsensitiveString && ((CaseInsensitiveString) o).s.equalsIgnoreCase(s);
     }
 
+
+
     public static void main(String[] args) {
         CaseInsensitiveString cis = new CaseInsensitiveString("Polish");
         String s = "polish";
@@ -36,5 +38,10 @@ public final class CaseInsensitiveString {
         List<String> list1 = new ArrayList<>();
         list1.add(s);
         System.out.println(list1.contains(cis));
+    }
+
+    @Override
+    public int compareTo(CaseInsensitiveString o) {
+        return String.CASE_INSENSITIVE_ORDER.compare(s, o.s);
     }
 }
